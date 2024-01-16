@@ -1,0 +1,209 @@
+_schema-version: "3.1"
+ID: Whole-Foods-Jhang
+description: A simple CAP project.
+version: 1.0.0
+modules:
+- name: Whole-Foods-Jhang-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: Whole-Foods-Jhang-db
+  - name: uaa_Whole-Foods-Jhang
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+  build-parameters:
+    builder: npm
+- name: Whole-Foods-Jhang-db-deployer
+  type: hdb
+  path: gen/db
+  requires:
+  - name: Whole-Foods-Jhang-db
+  parameters:
+    buildpack: nodejs_buildpack
+- name: Whole-Foods-Jhang-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: Whole-Foods-Jhang-destination-service
+    parameters:
+      content-target: true
+  - name: Whole-Foods-Jhang_html_repo_host
+    parameters:
+      service-key:
+        name: Whole-Foods-Jhang_html_repo_host-key
+  - name: uaa_Whole-Foods-Jhang
+    parameters:
+      service-key:
+        name: uaa_Whole-Foods-Jhang-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: WHOLE_FOODS_JHANG_Whole_Foods_Jhang_html_repo_host
+          ServiceInstanceName: Whole-Foods-Jhang-html5-app-host-service
+          ServiceKeyName: Whole-Foods-Jhang_html_repo_host-key
+          sap.cloud.service: WHOLE-FOODS-JHANG
+        - Authentication: OAuth2UserTokenExchange
+          Name: WHOLE_FOODS_JHANG_uaa_Whole_Foods_Jhang
+          ServiceInstanceName: Whole-Foods-Jhang-xsuaa-service
+          ServiceKeyName: uaa_Whole-Foods-Jhang-key
+          sap.cloud.service: WHOLE-FOODS-JHANG
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+- name: Whole-Foods-Jhang-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: Whole-Foods-Jhang_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - plants.zip
+      name: plants
+      target-path: resources/
+    - artifacts:
+      - matgroups.zip
+      name: matgroups
+      target-path: resources/
+    - artifacts:
+      - materialtypes.zip
+      name: materialtypes
+      target-path: resources/
+    - artifacts:
+      - materials.zip
+      name: materials
+      target-path: resources/
+    - artifacts:
+      - businesspartners.zip
+      name: businesspartners
+      target-path: resources/
+    - artifacts:
+      - roles.zip
+      name: roles
+      target-path: resources/
+    - artifacts:
+      - businesspartnerroles.zip
+      name: businesspartnerroles
+      target-path: resources/
+- name: plants
+  type: html5
+  path: app/plants
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: matgroups
+  type: html5
+  path: app/matgroups
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: materialtypes
+  type: html5
+  path: app/materialtypes
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: materials
+  type: html5
+  path: app/materials
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: businesspartners
+  type: html5
+  path: app/businesspartners
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: roles
+  type: html5
+  path: app/roles
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: businesspartnerroles
+  type: html5
+  path: app/businesspartnerroles
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: Whole-Foods-Jhang-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+- name: Whole-Foods-Jhang-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: Whole-Foods-Jhang-destination-service
+    service-plan: lite
+- name: Whole-Foods-Jhang_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: Whole-Foods-Jhang-html5-app-host-service
+    service-plan: app-host
+- name: uaa_Whole-Foods-Jhang
+  type: org.cloudfoundry.managed-service
+  parameters:
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: Whole-Foods-Jhang-xsuaa-service
+    service-plan: application
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npx cds build --production
