@@ -60,8 +60,8 @@ context Wholefoods {
     }
 
     entity BPRoles : managed {
-         BPARTNER:Association to BPGENERAL; //BP Role ID
-           BROLES:Association to Roles; //Role Description
+       key  BPARTNER:Association to BPGENERAL; //BP Role ID
+        key   BROLES:Association to Roles; //Role Description
 
 
     }

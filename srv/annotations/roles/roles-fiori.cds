@@ -50,8 +50,8 @@ annotate service.Roles with @(UI : {
 });
 
 annotate service.Roles with @(UI : {HeaderInfo : {
-    TypeName       : '{i18n>businesspartnerroles}',
-    TypeNamePlural : '{i18n>businesspartnersroles}',
+    TypeName       : '{i18n>role}',
+    TypeNamePlural : '{i18n>roles}',
     Title          : {Value : ROLE},
     Description    : {Value : DESC},
     TypeImageUrl   : 'sap-icon://process',

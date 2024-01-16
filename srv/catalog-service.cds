@@ -13,6 +13,7 @@ service wholefoodService {
     entity BPGENERAL as projection on wholefood.Wholefoods.BPGENERAL;
     entity BPTYPES as projection on wholefood.Wholefoods.BPTYPES;
     entity Roles as projection on wholefood.Wholefoods.Roles;
+    @odata.draft.enabled: true
     entity BPRoles as projection on wholefood.Wholefoods.BPRoles;
     
 
