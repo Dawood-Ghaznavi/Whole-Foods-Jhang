@@ -31,34 +31,36 @@ annotate service.Materials with @(UI : {
     
     ],
     LineItem            : {$value : [
-        {
-            $Type : 'UI.DataField',
-            Value : MATNR,
-        },
+        
         {
             $Type             : 'UI.DataField',
             Value             : MATNR,
-            ![@UI.Importance] : #High
+            ![@UI.Importance] : #High,
+            ![@HTML5.CssDefaults] : {width : 'auto'}
         },
         {
             $Type             : 'UI.DataField',
             Value             : GROUP_MATKL,
             ![@UI.Importance] : #High,
+            ![@HTML5.CssDefaults] : {width : 'auto'}
         },
         {
             $Type             : 'UI.DataField',
             Value             : TYPE_MTART,
             ![@UI.Importance] : #High,
+            ![@HTML5.CssDefaults] : {width : 'auto'}
         },
         {
             $Type             : 'UI.DataField',
             Value             : MAKTX,
             ![@UI.Importance] : #High,
+            ![@HTML5.CssDefaults] : {width : 'auto'}
         },
         {
             $Type             : 'UI.DataField',
             Value             : UOM,
             ![@UI.Importance] : #High,
+            ![@HTML5.CssDefaults] : {width : 'auto'}
         }
     ]},
     PresentationVariant : {
@@ -133,8 +135,16 @@ annotate service.Materials with {
                         $Type             : 'Common.ValueListParameterInOut',
                         LocalDataProperty : GROUP_MATKL,
                         ValueListProperty : 'MATKL'
-                    }]
+                    },
+                    {
+                        $Type   : 'Common.ValueListParameterDisplayOnly',
+                        
+                        ValueListProperty : 'MATKLTX'
+                    }
+                    ]
                 }
+                
+                 
                  
             });
 };
@@ -149,7 +159,14 @@ annotate service.Materials with {
                         $Type             : 'Common.ValueListParameterInOut',
                         LocalDataProperty : TYPE_MTART,
                         ValueListProperty : 'MTART'
-                    }]
+                    },
+                    {
+                        $Type   : 'Common.ValueListParameterDisplayOnly',
+                        
+                        ValueListProperty : 'MTARTTX'
+                        
+                    }
+                    ]
                 }
                  
             });

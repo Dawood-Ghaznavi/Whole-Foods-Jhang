@@ -54,7 +54,7 @@ annotate service.BPRoles with @(UI : {HeaderInfo : {
     TypeNamePlural : '{i18n>businesspartnersroles}',
     Title          : {Value : BPARTNER_PARTNER},
     Description    : {Value : BROLES_ROLE},
-    TypeImageUrl   : 'sap-icon://process',
+    TypeImageUrl   : 'sap-icon://suitcase',
 }});
 
 annotate service.BPRoles with @(UI : {
@@ -81,8 +81,7 @@ annotate service.BPRoles with @(UI : {
         {Value : createdAt},
         {Value : modifiedBy},
         {Value : modifiedAt}
-    ]}
-});
+    ]}});
 
 annotate service.BPRoles with {
     BPARTNER @(Common : {
@@ -94,7 +93,13 @@ annotate service.BPRoles with {
                         $Type             : 'Common.ValueListParameterInOut',
                         LocalDataProperty : BPARTNER_PARTNER,
                         ValueListProperty : 'PARTNER'
-                    }]
+                    },
+                    {
+                        $Type   : 'Common.ValueListParameterDisplayOnly',
+                        
+                        ValueListProperty : 'NAME'
+                    }
+                    ]
                 }
                  
             });
@@ -110,6 +115,11 @@ annotate service.BPRoles with {
                         $Type             : 'Common.ValueListParameterInOut',
                         LocalDataProperty : BROLES_ROLE,
                         ValueListProperty : 'ROLE'
+                    },
+                    {
+                        $Type   : 'Common.ValueListParameterDisplayOnly',
+                        
+                        ValueListProperty : 'DESC'
                     }]
                 }
                  

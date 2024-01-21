@@ -5,3 +5,5 @@ using from './annotations/materials/materials-fiori';
 using from './annotations/businessPartner/businessPartner-fiori';
 using from './annotations/roles/roles-fiori';
 using from './annotations/businessPartnerRoles/businessPartnerRoles-fiori';
+using from './annotations/inventory/inventory-fiori';
+using from './annotations/purchaseOrder/purchaseOrder-fiori';

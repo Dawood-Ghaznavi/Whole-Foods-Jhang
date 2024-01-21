@@ -92,6 +92,14 @@ modules:
       - businesspartnerroles.zip
       name: businesspartnerroles
       target-path: resources/
+    - artifacts:
+      - inventory.zip
+      name: inventory
+      target-path: resources/
+    - artifacts:
+      - purchaseorder.zip
+      name: purchaseorder
+      target-path: resources/
 - name: plants
   type: html5
   path: app/plants
@@ -155,6 +163,26 @@ modules:
 - name: businesspartnerroles
   type: html5
   path: app/businesspartnerroles
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: inventory
+  type: html5
+  path: app/inventory
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: purchaseorder
+  type: html5
+  path: app/purchaseorder
   build-parameters:
     build-result: dist
     builder: custom

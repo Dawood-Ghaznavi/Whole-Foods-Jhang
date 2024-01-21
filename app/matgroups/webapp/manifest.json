@@ -1,154 +1,183 @@
 {
-  "_version": "1.59.0",
-  "sap.app": {
-    "id": "matgroups",
-    "type": "application",
-    "i18n": "i18n/i18n.properties",
-    "applicationVersion": {
-      "version": "0.0.1"
-    },
-    "title": "{{appTitle}}",
-    "description": "{{appDescription}}",
-    "resources": "resources.json",
-    "sourceTemplate": {
-      "id": "@sap/generator-fiori:lrop",
-      "version": "1.12.1",
-      "toolsId": "95ed4701-612f-4242-acc6-8f604bbcbbd6"
-    },
-    "dataSources": {
-      "mainService": {
-        "uri": "/odata/v4/wholefood/",
-        "type": "OData",
-        "settings": {
-          "annotations": [],
-          "localUri": "localService/metadata.xml",
-          "odataVersion": "4.0"
-        }
-      }
-    },
-    "crossNavigation": {
-      "inbounds": {
-        "material group-manage": {
-          "semanticObject": "material group",
-          "action": "manage",
-          "title": "{{flpTitle}}",
-          "signature": {
-            "parameters": {},
-            "additionalParameters": "allowed"
-          }
-        }
-      }
-    }
-  },
-  "sap.ui": {
-    "technology": "UI5",
-    "icons": {
-      "icon": "",
-      "favIcon": "",
-      "phone": "",
-      "phone@2": "",
-      "tablet": "",
-      "tablet@2": ""
-    },
-    "deviceTypes": {
-      "desktop": true,
-      "tablet": true,
-      "phone": true
-    }
-  },
-  "sap.ui5": {
-    "flexEnabled": true,
-    "dependencies": {
-      "minUI5Version": "1.120.4",
-      "libs": {
-        "sap.m": {},
-        "sap.ui.core": {},
-        "sap.ushell": {},
-        "sap.fe.templates": {}
-      }
-    },
-    "contentDensities": {
-      "compact": true,
-      "cozy": true
-    },
-    "models": {
-      "i18n": {
-        "type": "sap.ui.model.resource.ResourceModel",
-        "settings": {
-          "bundleName": "matgroups.i18n.i18n"
-        }
-      },
-      "": {
-        "dataSource": "mainService",
-        "preload": true,
-        "settings": {
-          "synchronizationMode": "None",
-          "operationMode": "Server",
-          "autoExpandSelect": true,
-          "earlyRequests": true
-        }
-      },
-      "@i18n": {
-        "type": "sap.ui.model.resource.ResourceModel",
-        "uri": "i18n/i18n.properties"
-      }
-    },
-    "resources": {
-      "css": []
-    },
-    "routing": {
-      "config": {},
-      "routes": [
-        {
-          "pattern": ":?query:",
-          "name": "MatGroupsList",
-          "target": "MatGroupsList"
+    "_version": "1.59.0",
+    "sap.app": {
+        "id": "matgroups",
+        "type": "application",
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
         },
-        {
-          "pattern": "MatGroups({key}):?query:",
-          "name": "MatGroupsObjectPage",
-          "target": "MatGroupsObjectPage"
-        }
-      ],
-      "targets": {
-        "MatGroupsList": {
-          "type": "Component",
-          "id": "MatGroupsList",
-          "name": "sap.fe.templates.ListReport",
-          "options": {
-            "settings": {
-              "contextPath": "/MatGroups",
-              "variantManagement": "Page",
-              "navigation": {
-                "MatGroups": {
-                  "detail": {
-                    "route": "MatGroupsObjectPage"
-                  }
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "@sap/generator-fiori:lrop",
+            "version": "1.12.1",
+            "toolsId": "95ed4701-612f-4242-acc6-8f604bbcbbd6"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/odata/v4/wholefood/",
+                "type": "OData",
+                "settings": {
+                    "annotations": [],
+                    "localUri": "localService/metadata.xml",
+                    "odataVersion": "4.0"
                 }
-              }
             }
-          }
         },
-        "MatGroupsObjectPage": {
-          "type": "Component",
-          "id": "MatGroupsObjectPage",
-          "name": "sap.fe.templates.ObjectPage",
-          "options": {
-            "settings": {
-              "editableHeaderContent": false,
-              "contextPath": "/MatGroups"
+        "crossNavigation": {
+            "inbounds": {
+                "material group-manage": {
+                    "semanticObject": "material group",
+                    "action": "manage",
+                    "title": "{{flpTitle}}",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                }
             }
-          }
         }
-      }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
+    },
+    "sap.ui5": {
+        "flexEnabled": true,
+        "dependencies": {
+            "minUI5Version": "1.120.4",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.ushell": {},
+                "sap.fe.templates": {}
+            }
+        },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "matgroups.i18n.i18n"
+                }
+            },
+            "": {
+                "dataSource": "mainService",
+                "preload": true,
+                "settings": {
+                    "synchronizationMode": "None",
+                    "operationMode": "Server",
+                    "autoExpandSelect": true,
+                    "earlyRequests": true
+                }
+            },
+            "@i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "uri": "i18n/i18n.properties"
+            }
+        },
+        "resources": {
+            "css": []
+        },
+        "routing": {
+            "routes": [
+                {
+                    "pattern": ":?query:",
+                    "name": "MatGroupsList",
+                    "target": "MatGroupsList"
+                },
+                {
+                    "pattern": "MatGroups({key}):?query:",
+                    "name": "MatGroupsObjectPage",
+                    "target": "MatGroupsObjectPage"
+                }
+            ],
+            "targets": {
+                "MatGroupsList": {
+                    "type": "Component",
+                    "id": "MatGroupsList",
+                    "name": "sap.fe.templates.ListReport",
+                    "options": {
+                        "settings": {
+                            "contextPath": "/MatGroups",
+                            "variantManagement": "Page",
+                            "navigation": {
+                                "MatGroups": {
+                                    "detail": {
+                                        "route": "MatGroupsObjectPage"
+                                    }
+                                }
+                            },
+                            "controlConfiguration": {
+                                "@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "columns": {
+                                        "DataField::MATKL": {
+                                            "availability": "Default",
+                                            "width": "auto"
+                                        },
+                                        "DataField::MATKLTX": {
+                                            "availability": "Default",
+                                            "width": "auto"
+                                        },
+                                        "DataField::modifiedBy": {
+                                            "availability": "Adaptation",
+                                            "width": "auto"
+                                        },
+                                        "DataField::createdAt": {
+                                            "availability": "Adaptation",
+                                            "width": "auto"
+                                        },
+                                        "DataField::createdBy": {
+                                            "availability": "Adaptation",
+                                            "width": "auto"
+                                        },
+                                        "DataField::modifiedAt": {
+                                            "availability": "Adaptation",
+                                            "width": "auto"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "MatGroupsObjectPage": {
+                    "type": "Component",
+                    "id": "MatGroupsObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "editableHeaderContent": false,
+                            "contextPath": "/MatGroups"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "sap.fiori": {
+        "registrationIds": [],
+        "archeType": "transactional"
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "WHOLE-FOODS-JHANG"
     }
-  },
-  "sap.fiori": {
-    "registrationIds": [],
-    "archeType": "transactional"
-  },
-  "sap.cloud": {
-    "public": true,
-    "service": "WHOLE-FOODS-JHANG"
-  }
 }

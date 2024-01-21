@@ -89,7 +89,7 @@ annotate service.BPGENERAL with @(UI : {HeaderInfo : {
     TypeNamePlural : '{i18n>businesspartners}',
     Title          : {Value :PARTNER},
     Description    : {Value :NAME},
-    TypeImageUrl   : 'sap-icon://product',
+    TypeImageUrl   : 'sap-icon://add-contact',
 }});
 
 annotate service.BPGENERAL with @(UI : {

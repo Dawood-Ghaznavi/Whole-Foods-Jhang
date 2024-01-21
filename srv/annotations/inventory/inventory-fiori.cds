@@ -1,41 +1,52 @@
 using wholefoodService as service from '../../catalog-service';
 
-annotate service.Roles with {
-    ROLE       @(title: '{i18n>ID}') ;
-    DESC       @(title: '{i18n>description}');
+annotate service.MARD with {
+    MATNR       @(title: '{i18n>materialID}');
+    WERKS     @(title: '{i18n>plantID}');
+    LABST       @(title: '{i18n>unrestrictedstock}');
+    UOM         @(title: '{i18n>unitofmeasure}'); 
     createdBy   @(title: '{i18n>createdBy}')   @UI.HiddenFilter: false;
     createdAt   @(title: '{i18n>createdOn}')   @UI.HiddenFilter: false;
     modifiedBy  @(title: '{i18n>modifiedBy}')  @UI.HiddenFilter: false;
     modifiedAt  @(title: '{i18n>modifiedOn}')  @UI.HiddenFilter: false;
 
 }
-
-annotate service.Roles with @(UI : {
+ @UI.DeleteHidden : true
+ 
+ 
+ 
+annotate service.MARD with @(UI : {
+    
     SelectionFields     : [
-        ROLE,
+        MATNR,
+        WERKS
         
 
     
     ],
-    LineItem           : {$value : [
+    LineItem            : {$value : [
         {
             $Type : 'UI.DataField',
-            Value : ROLE,
-           
-            
-            
-            
+            Value : MATNR,
+            ![@HTML5.CssDefaults] : {width : 'auto'}
         },
         {
             $Type             : 'UI.DataField',
-            Value             : DESC,
+            Value             : WERKS,
             ![@UI.Importance] : #High,
-            
-            
-            
-              
-            
-             
+            ![@HTML5.CssDefaults] : {width : 'auto'}
+        },
+        {
+            $Type             : 'UI.DataField',
+            Value             : LABST,
+            ![@UI.Importance] : #High,
+            ![@HTML5.CssDefaults] : {width : 'auto'}
+        },
+        {
+            $Type             : 'UI.DataField',
+            Value             : UOM,
+            ![@UI.Importance] : #High,
+            ![@HTML5.CssDefaults] : {width : 'auto'},
             
         }
     ]},
@@ -49,15 +60,15 @@ annotate service.Roles with @(UI : {
     }
 });
 
-annotate service.Roles with @(UI : {HeaderInfo : {
-    TypeName       : '{i18n>role}',
-    TypeNamePlural : '{i18n>roles}',
-    Title          : {Value : ROLE},
-    Description    : {Value : DESC},
-    TypeImageUrl   : 'sap-icon://role',
+annotate service.MARD with @(UI : {HeaderInfo : {
+    TypeName       : '{i18n>inventory}',
+    TypeNamePlural : '{i18n>inventory}',
+    Title          : {Value : MATNR},
+    Description    : {Value : WERKS},
+    TypeImageUrl   : 'sap-icon://inventory',
 }});
 
-annotate service.Roles with @(UI : {
+annotate service.MARD with @(UI : {
     Facets                         : [
         {
             $Type  : 'UI.ReferenceFacet',
@@ -71,9 +82,11 @@ annotate service.Roles with @(UI : {
         }
     ],
     FieldGroup #BasicInfo          : {Data : [
-        {Value : ROLE},
-        {Value : DESC}
-       
+        {Value : MATNR},
+        {Value : WERKS},
+        {Value : LABST},
+        {Value : UOM}
+        
 
     ]},
     FieldGroup #AdministrativeData : {Data : [

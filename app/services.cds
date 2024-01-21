@@ -12,3 +12,7 @@ using from './businesspartners/annotations';
 using from './roles/annotations';
 
 using from './businesspartnerroles/annotations';
+
+using from './inventory/annotations';
+
+using from './purchaseorder/annotations';

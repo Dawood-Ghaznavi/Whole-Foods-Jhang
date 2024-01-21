@@ -65,6 +65,33 @@ context Wholefoods {
 
 
     }
+    entity MARD : managed 
+    {
+       KEY MATNR : String(18); //Material ID
+       KEY WERKS : String(4);  //Plant ID
+           LABST : Integer;   //Unrestricted Stock
+           UOM : String(2);   //Unit of Measure
+           }
+
+     entity PO_ITEM : managed {
+
+              
+          key  EBElP : String(4); //Item Number
+              EBELN : Association to PO_HEAD; //Purchasing Document Number
+              WERKS : Association to Plants; //Plant ID
+              MATNR : Association to Materials; //Material ID
+              MENGE : Integer; //PO Quantity
+              UOM : String(2); //Unit of Measure
+}      
+
+    entity PO_HEAD : managed {
+        key EBELN : String(10); //Purchasing Document Number
+            EBELP : association to many PO_ITEM on  EBELP.EBELN = $self; //Item Number
+            PARTNER : Association to BPGENERAL; //Business Partner ID
+
+
+
+    }       
 
 
 }

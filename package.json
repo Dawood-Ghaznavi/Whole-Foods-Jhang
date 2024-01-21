@@ -31,7 +31,9 @@
         "watch-materials": "cds watch --open materials/webapp/index.html?sap-ui-xx-viewCache=false",
         "watch-businesspartners": "cds watch --open businesspartners/webapp/index.html?sap-ui-xx-viewCache=false",
         "watch-roles": "cds watch --open roles/webapp/index.html?sap-ui-xx-viewCache=false",
-        "watch-businesspartnerroles": "cds watch --open businesspartnerroles/webapp/index.html?sap-ui-xx-viewCache=false"
+        "watch-businesspartnerroles": "cds watch --open businesspartnerroles/webapp/index.html?sap-ui-xx-viewCache=false",
+        "watch-inventory": "cds watch --open inventory/webapp/index.html?sap-ui-xx-viewCache=false",
+        "watch-purchaseorder": "cds watch --open purchaseorder/webapp/index.html?sap-ui-xx-viewCache=false"
     },
     "cds": {
         "requires": {
@@ -50,6 +52,8 @@
         "app/materials",
         "app/businesspartners",
         "app/roles",
-        "app/businesspartnerroles"
+        "app/businesspartnerroles",
+        "app/inventory",
+        "app/purchaseorder"
     ]
 }
