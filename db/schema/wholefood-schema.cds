@@ -85,8 +85,8 @@ context Wholefoods {
 }      
 
     entity PO_HEAD : managed {
-        key EBELN : String(10); //Purchasing Document Number
-            EBELP : association to many PO_ITEM on  EBELP.EBELN = $self; //Item Number
+        key EBELN : String(10) ; //Purchasing Document Number
+            EBELP : Composition of many PO_ITEM on  EBELP.EBELN = $self; //Item Number
             PARTNER : Association to BPGENERAL; //Business Partner ID
 
 

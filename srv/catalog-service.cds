@@ -16,9 +16,9 @@ service wholefoodService {
     @odata.draft.enabled: true
     entity BPRoles as projection on wholefood.Wholefoods.BPRoles;
     entity MARD as projection on wholefood.Wholefoods.MARD;
-    
-    entity PO_HEAD as projection on wholefood.Wholefoods.PO_HEAD;
     @odata.draft.enabled: true
+    entity PO_HEAD as projection on wholefood.Wholefoods.PO_HEAD;
+   
     entity PO_ITEM as projection on wholefood.Wholefoods.PO_ITEM;
     
     
