@@ -75,8 +75,8 @@ context Wholefoods {
 
      entity PO_ITEM : managed {
 
-              
-          key  EBElP : String(4); //Item Number
+         key ID : UUID @Core.Computed : true;     
+           EBELP : String(4); //Item Number
               EBELN : Association to PO_HEAD; //Purchasing Document Number
               WERKS : Association to Plants; //Plant ID
               MATNR : Association to Materials; //Material ID
@@ -85,7 +85,8 @@ context Wholefoods {
 }      
 
     entity PO_HEAD : managed {
-        key EBELN : String(10) ; //Purchasing Document Number
+        key ID : UUID @Core.Computed : true;     
+         EBELN : String(10) ; //Purchasing Document Number
             EBELP : Composition of many PO_ITEM on  EBELP.EBELN = $self; //Item Number
             PARTNER : Association to BPGENERAL; //Business Partner ID
 

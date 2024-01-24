@@ -146,6 +146,16 @@
                     "route": "PO_HEAD_EBELPObjectPage"
                   }
                 }
+              },
+              "controlConfiguration": {
+                "EBELP/@com.sap.vocabularies.UI.v1.LineItem#iteminp": {
+                  "tableSettings": {
+                    "creationMode": {
+                      "createAtEnd": true,
+                      "name": "NewPage"
+                    }
+                  }
+                }
               }
             }
           }
