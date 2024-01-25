@@ -81,7 +81,7 @@ context Wholefoods {
               WERKS : Association to Plants; //Plant ID
               MATNR : Association to Materials; //Material ID
               MENGE : Integer; //PO Quantity
-              UOM : String(2); //Unit of Measure
+              UOMM : String(2); //Unit of Measure
 }      
 
     entity PO_HEAD : managed {

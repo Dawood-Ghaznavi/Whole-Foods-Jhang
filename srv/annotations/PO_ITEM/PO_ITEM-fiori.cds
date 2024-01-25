@@ -1,6 +1,6 @@
 using wholefoodService as service from '../../catalog-service';
 
-annotate service.PO_ITEM with {
+annotate service.PO_ITEM  with {
     EBELP       @(title: '{i18n>itemnumber}');
     EBELN       @(title: '{i18n>purchaseordernumber}');
     WERKS     @(title: '{i18n>plantID}');
@@ -14,7 +14,7 @@ annotate service.PO_ITEM with {
 
 }    
 
-annotate service.PO_ITEM with @(UI : {
+annotate service.PO_ITEM @(UI : {
     
     
     LineItem   #iteminp      : {$value : [
@@ -31,7 +31,7 @@ annotate service.PO_ITEM with @(UI : {
             Value             : MATNR_MATNR,
             ![@UI.Importance] : #High,
             ![@HTML5.CssDefaults]  : {width : 'auto'},
-            ![@Common.FieldControl] : #ReadOnly
+            
         },
         {
             $Type             : 'UI.DataField',
@@ -46,7 +46,7 @@ annotate service.PO_ITEM with @(UI : {
             Value             : WERKS_WERKS,
             ![@UI.Importance] : #High,
             ![@HTML5.CssDefaults]  : {width : 'auto'},
-            ![@Common.FieldControl] : #ReadOnly
+            
 
             
         },
@@ -63,14 +63,15 @@ annotate service.PO_ITEM with @(UI : {
             Value             : MENGE,
             ![@UI.Importance] : #High,
             ![@HTML5.CssDefaults]  : {width : 'auto'},
-            ![@Common.FieldControl] : #ReadOnly
+            
         },
          {
             $Type             : 'UI.DataField',
             Value             : MATNR.UOM,
             ![@UI.Importance] : #High,
             ![@HTML5.CssDefaults]  : {width : 'auto'},
-            ![@Common.FieldControl] : #ReadOnly
+             ![@Common.FieldControl] : #ReadOnly
+            
             
         }
     ]},
@@ -88,9 +89,9 @@ annotate service.PO_ITEM with @(UI : {
   
 });
 
-annotate service.PO_ITEM with @(UI: {UpdateHidden : true});
+annotate service.PO_ITEM   with @(UI: {UpdateHidden : true});
 
-annotate service.PO_ITEM with @(UI : {HeaderInfo : {
+annotate service.PO_ITEM   with @(UI : {HeaderInfo : {
     TypeName       : '{i18n>item}',
    TypeNamePlural : '{i18n>items}',
     Title          : {Value : EBELP},
@@ -98,7 +99,7 @@ annotate service.PO_ITEM with @(UI : {HeaderInfo : {
     TypeImageUrl   : 'sap-icon://product',
 }});
 
-annotate service.PO_ITEM with @(UI : {
+annotate service.PO_ITEM  with @(UI : {
     Facets                         : [
         {
             $Type  : 'UI.ReferenceFacet',
@@ -133,11 +134,13 @@ annotate service.PO_ITEM with @(UI : {
     ]}
 });
 
-annotate service.PO_ITEM with {
+
+
+annotate service.PO_ITEM  with {
     EBELP @Common.FieldControl : #ReadOnly
 }
 
-annotate service.PO_ITEM with {
+annotate service.PO_ITEM  with {
     MATNR @(Common : {
                 ValueListWithFixedValues,
                 ValueList : {
@@ -160,7 +163,7 @@ annotate service.PO_ITEM with {
             });
 };
 
-annotate service.PO_ITEM with {
+annotate service.PO_ITEM   with {
     WERKS @(Common : {
                 ValueListWithFixedValues,
                 ValueList : {
@@ -182,3 +185,13 @@ annotate service.PO_ITEM with {
                  
             });
 };
+
+
+
+
+annotate service.PO_ITEM @(Common : {
+    SideEffects  : {
+        SourceProperties : ['MATNR_MATNR','WERKS_WERKS'],
+        TargetEntities   : ['MATNR','WERKS']
+    }
+});

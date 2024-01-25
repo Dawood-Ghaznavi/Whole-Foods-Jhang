@@ -152,7 +152,7 @@
                   "tableSettings": {
                     "creationMode": {
                       "createAtEnd": true,
-                      "name": "NewPage"
+                      "name": "Inline"
                     }
                   }
                 }

@@ -107,7 +107,14 @@ annotate service.PO_HEAD with {
 
 //annotate service.PO_HEAD with @(UI: {UpdateHidden : true});
 
-
+annotate service.PO_HEAD with {
+    
+    PARTNER @(Common : {Text : {
+        $value                 : PARTNER.NAME,
+        ![@UI.TextArrangement] : #TextOnly
+    }})
+	
+}
 
 
 
