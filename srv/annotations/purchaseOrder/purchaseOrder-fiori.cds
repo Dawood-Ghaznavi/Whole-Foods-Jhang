@@ -87,34 +87,40 @@ annotate service.PO_HEAD with {
                 ValueListWithFixedValues,
                 ValueList : {
                     SearchSupported : true,
-                    CollectionPath  : 'BPGENERAL',
+                    CollectionPath  : 'LISTROLE',
                     Parameters      : [{
-                        $Type             : 'Common.ValueListParameterInOut',
+                        $Type             : 'Common.ValueListParameterOut',
                         LocalDataProperty : PARTNER_PARTNER,
-                        ValueListProperty : 'PARTNER'
-                    },
+                        ValueListProperty : 'BPARTNER_PARTNER'
+                    }
+                    ,
                     {
                         $Type   : 'Common.ValueListParameterDisplayOnly',
                         
                         ValueListProperty : 'NAME'
                         
-                    }
+                   } 
+                   
+
                     ]
                 }
                  
             });
 };
 
-//annotate service.PO_HEAD with @(UI: {UpdateHidden : true});
+annotate service.PO_HEAD with @(UI: {UpdateHidden : true});
 
 annotate service.PO_HEAD with {
     
     PARTNER @(Common : {Text : {
         $value                 : PARTNER.NAME,
-        ![@UI.TextArrangement] : #TextOnly
+        ![@UI.TextArrangement] : #TextLast
     }})
 	
 }
+
+
+
 
 
 

@@ -1,5 +1,6 @@
 using wholefoodService as service from '../../catalog-service';
 
+
 annotate service.PO_ITEM  with {
     EBELP       @(title: '{i18n>itemnumber}');
     EBELN       @(title: '{i18n>purchaseordernumber}');
@@ -145,7 +146,7 @@ annotate service.PO_ITEM  with {
                 ValueListWithFixedValues,
                 ValueList : {
                     SearchSupported : true,
-                    CollectionPath  : 'Materials',
+                    CollectionPath  : 'LISTMATERIALS',
                     Parameters      : [{
                         $Type             : 'Common.ValueListParameterInOut',
                         LocalDataProperty : MATNR_MATNR,
@@ -192,6 +193,6 @@ annotate service.PO_ITEM   with {
 annotate service.PO_ITEM @(Common : {
     SideEffects  : {
         SourceProperties : ['MATNR_MATNR','WERKS_WERKS'],
-        TargetEntities   : ['MATNR','WERKS']
+        TargetEntities   : ['']
     }
 });

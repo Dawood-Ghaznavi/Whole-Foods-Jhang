@@ -60,39 +60,52 @@ context Wholefoods {
     }
 
     entity BPRoles : managed {
-       key  BPARTNER:Association to BPGENERAL; //BP Role ID
-        key   BROLES:Association to Roles; //Role Description
+        key BPARTNER : Association to BPGENERAL; //BP Role ID
+        key BROLES   : Association to Roles; //Role Description
 
 
     }
-    entity MARD : managed 
-    {
-       KEY MATNR : String(18); //Material ID
-       KEY WERKS : String(4);  //Plant ID
-           LABST : Integer;   //Unrestricted Stock
-           UOM : String(2);   //Unit of Measure
-           }
 
-     entity PO_ITEM : managed {
+    entity MARD : managed {
+        key MATNR : String(18); //Material ID
+        key WERKS : String(4); //Plant ID
+            LABST : Integer; //Unrestricted Stock
+            UOM   : String(2); //Unit of Measure
+    }
 
-         key ID : UUID @Core.Computed : true;     
-           EBELP : String(4); //Item Number
-              EBELN : Association to PO_HEAD; //Purchasing Document Number
-              WERKS : Association to Plants; //Plant ID
-              MATNR : Association to Materials; //Material ID
-              MENGE : Integer; //PO Quantity
-              UOMM : String(2); //Unit of Measure
-}      
+    entity PO_ITEM : managed {
+
+        key ID    : UUID @Core.Computed: true;
+            EBELP : String(4); //Item Number
+            EBELN : Association to PO_HEAD; //Purchasing Document Number
+            WERKS : Association to Plants; //Plant ID
+            MATNR : Association to Materials; //Material ID
+            MENGE : Integer; //PO Quantity
+            UOMM  : String(2); //Unit of Measure
+    }
 
     entity PO_HEAD : managed {
-        key ID : UUID @Core.Computed : true;     
-         EBELN : String(10) ; //Purchasing Document Number
-            EBELP : Composition of many PO_ITEM on  EBELP.EBELN = $self; //Item Number
+        key ID      : UUID @Core.Computed: true;
+            EBELN   : String(10); //Purchasing Document Number
+            EBELP   : Composition of many PO_ITEM
+                          on EBELP.EBELN = $self; //Item Number
             PARTNER : Association to BPGENERAL; //Business Partner ID
 
 
+    }
 
-    }       
+    entity LISTROLE : managed {
+
+        key BPARTNER : Association to BPGENERAL; //BP Role ID
+        key BROLES   : Association to Roles; //Role Description
+        NAME : String(50)
+  }
+             entity npm  : managed {
+
+       key MATNR : String(25); //Material ID
+                 TYPE  : Association to MatTypes; //Material type
+          MAKTX : String(40); //Material desciption
+            }
 
 
 }

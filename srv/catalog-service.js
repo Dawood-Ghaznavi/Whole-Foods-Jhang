@@ -8,6 +8,7 @@ module.exports = function (){
     this.before ('CREATE','PO_HEAD', async (req)=>{
         let temp 
         let HeadID = '0'
+        console.log(JSON.stringify(req.data))
         let head_val = await SELECT.from("wholefoodService.PO_HEAD").columns('EBELN');
         if(head_val.length > 0){
             head_val.sort(function(a,b){ a.EBELP - b.EBELN})
@@ -71,11 +72,17 @@ module.exports = function (){
             if(req.data){
                 
 
-                if(req.data.MENGE){
-                    
-                    if(req.data.MENGE < 1){
-                        let item_error = await SELECT.from("wholefoodService.PO_ITEM.drafts").columns('EBELP').where({ID : req.data.ID});
-                    return req.error(409, `Quantity entered for Item No. ${item_error[0].EBELP} should be greater than zero`); }}
+                if(req.data.MENGE != undefined){
+                    if(req.data.MENGE < 1 ){
+                        //let item_error = await SELECT.from("wholefoodService.PO_ITEM.drafts").columns('EBELP').where({ID : req.data.ID});
+                    return req.error({ code : 409, message : `Quantity entered should be greater than zero`, target : 'MENGE'})}
+                
+                else if(req.data.MENGE > 1000){
+                    return req.error({ code : 409, message : `Quantity entered should be less than 1000`, target : 'MENGE'})
+
+                }
+            
+            }
                     
               // else if (req.data.MATNR_MATNR) {
                // let unit = await SELECT.one.from("wholefoodService.Materials").columns('UOM').where({MATNR : req.data.MATNR_MATNR});

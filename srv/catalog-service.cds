@@ -20,6 +20,10 @@ service wholefoodService {
     entity PO_HEAD as projection on wholefood.Wholefoods.PO_HEAD;
   
     entity PO_ITEM as projection on wholefood.Wholefoods.PO_ITEM;
+
+    entity LISTROLE as select from BPRoles{BPARTNER,BROLES,BPARTNER.NAME} where BROLES.ROLE = 'VEND';
+
+     entity LISTMATERIALS as select from Materials {MATNR,TYPE,MAKTX  }where TYPE.MTART = 'ROH';
     
     
 
