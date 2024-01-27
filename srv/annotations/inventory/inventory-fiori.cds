@@ -18,8 +18,8 @@ annotate service.MARD with {
 annotate service.MARD with @(UI : {
     
     SelectionFields     : [
-        MATNR,
-        WERKS
+        MATNR_MATNR,
+        WERKS_WERKS
         
 
     
@@ -27,12 +27,12 @@ annotate service.MARD with @(UI : {
     LineItem            : {$value : [
         {
             $Type : 'UI.DataField',
-            Value : MATNR,
+            Value : MATNR_MATNR,
             ![@HTML5.CssDefaults] : {width : 'auto'}
         },
         {
             $Type             : 'UI.DataField',
-            Value             : WERKS,
+            Value             : WERKS_WERKS,
             ![@UI.Importance] : #High,
             ![@HTML5.CssDefaults] : {width : 'auto'}
         },
@@ -44,7 +44,7 @@ annotate service.MARD with @(UI : {
         },
         {
             $Type             : 'UI.DataField',
-            Value             : UOM,
+            Value             : MATNR.UOM,
             ![@UI.Importance] : #High,
             ![@HTML5.CssDefaults] : {width : 'auto'},
             
@@ -63,8 +63,8 @@ annotate service.MARD with @(UI : {
 annotate service.MARD with @(UI : {HeaderInfo : {
     TypeName       : '{i18n>inventory}',
     TypeNamePlural : '{i18n>inventory}',
-    Title          : {Value : MATNR},
-    Description    : {Value : WERKS},
+    Title          : {Value : MATNR_MATNR},
+    Description    : {Value : WERKS_WERKS},
     TypeImageUrl   : 'sap-icon://inventory',
 }});
 
@@ -82,10 +82,10 @@ annotate service.MARD with @(UI : {
         }
     ],
     FieldGroup #BasicInfo          : {Data : [
-        {Value : MATNR},
-        {Value : WERKS},
+        {Value : MATNR_MATNR},
+        {Value : WERKS_WERKS},
         {Value : LABST},
-        {Value : UOM}
+        {Value : MATNR.UOM}
         
 
     ]},

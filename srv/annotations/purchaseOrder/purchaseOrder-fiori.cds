@@ -108,7 +108,7 @@ annotate service.PO_HEAD with {
             });
 };
 
-annotate service.PO_HEAD with @(UI: {UpdateHidden : true});
+//annotate service.PO_HEAD with @(UI: {UpdateHidden : true});
 
 annotate service.PO_HEAD with {
     

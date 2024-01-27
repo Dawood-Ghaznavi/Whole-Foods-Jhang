@@ -67,10 +67,10 @@ context Wholefoods {
     }
 
     entity MARD : managed {
-        key MATNR : String(18); //Material ID
-        key WERKS : String(4); //Plant ID
+        key MATNR : Association to Materials; //Material ID
+        key WERKS : Association to Plants; //Plant ID
             LABST : Integer; //Unrestricted Stock
-            UOM   : String(2); //Unit of Measure
+            
     }
 
     entity PO_ITEM : managed {
@@ -81,7 +81,7 @@ context Wholefoods {
             WERKS : Association to Plants; //Plant ID
             MATNR : Association to Materials; //Material ID
             MENGE : Integer; //PO Quantity
-            UOMM  : String(2); //Unit of Measure
+           
     }
 
     entity PO_HEAD : managed {
@@ -89,7 +89,7 @@ context Wholefoods {
             EBELN   : String(10); //Purchasing Document Number
             EBELP   : Composition of many PO_ITEM
                           on EBELP.EBELN = $self; //Item Number
-            PARTNER : Association to BPGENERAL; //Business Partner ID
+            PARTNER : Association to BPGENERAL @mandatory; //Business Partner ID
 
 
     }

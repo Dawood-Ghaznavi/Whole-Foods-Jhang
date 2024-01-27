@@ -2,13 +2,13 @@ module.exports = function (){
    
     const { PO_HEAD} = this.entities()
     const { PO_ITEM} = this.entities()
-    
+    const {MARD} = this.entities()
    
 
     this.before ('CREATE','PO_HEAD', async (req)=>{
+        
         let temp 
         let HeadID = '0'
-        console.log(JSON.stringify(req.data))
         let head_val = await SELECT.from("wholefoodService.PO_HEAD").columns('EBELN');
         if(head_val.length > 0){
             head_val.sort(function(a,b){ a.EBELP - b.EBELN})
@@ -27,7 +27,51 @@ module.exports = function (){
 
         }
         req.notify(`Purchase Order ${temp} Created`)
+        let lenItem = req.data.EBELP.length
+        const arrItem = []
+        let mID , plID, mng
+        let similarityIndex
+        for (let x = 0 ; x <lenItem ; x++){
+           
+            mID = req.data.EBELP[x].MATNR_MATNR
+            plID = req.data.EBELP[x].WERKS_WERKS
+            mng = req.data.EBELP[x].MENGE
+             similarityIndex = arrItem.findIndex(function (material) {return (material.MATNR === mID) && (material.WERKS === plID)})
+
+             if(similarityIndex == -1){
+                const obj = {MATNR_MATNR : mID ,WERKS_WERKS :plID , LABST :mng}
+                arrItem.push(obj)
+             }
+                else {
+                    arrItem[similarityIndex].LABST = arrItem[similarityIndex].LABST + mng
+
+                }
+    
+     }
+     let arrItemlen = arrItem.length
+     let test
+     
+     for(let y = 0 ; y < arrItemlen ; y++ ){
+        console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        test =  await SELECT.from("wholefoodService.MARD").columns('MATNR','WERKS').where({ WERKS_WERKS : arrItem[y].WERKS ,MATNR_MATNR : arrItem[y].MATNR });
+        console.log(test.length)
+        console.log(JSON.stringify(test))
+        console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
+                if(test.length < 1) {
+                    console.log("BBBBBBBBBBBFFFFFFFFFFFFFRRRRRRRRRRRRR")
+                    await INSERT(arrItem[y]).into(MARD);
+                    console.log("AAAAAAAAAAAAAAATTTTTTTTTTRRRRRRRRRr")
+                }
+                else {
+                    console.log("###################################")
+                    await UPDATE(MARD).set({ LABST: { '+=': arrItem[y].LABST }}).where({ WERKS_WERKS : arrItem[y].WERKS ,MATNR_MATNR : arrItem[y].MATNR  });
+                    console.log("44444444444444444444444444444444444")
+                }
+               
+    }
+
         
+        console.log(arrItem)
        
        
        
@@ -42,7 +86,8 @@ module.exports = function (){
       
 
    this.before ('CREATE', 'PO_ITEM.drafts',async (req)=>{
-         let ITEMID = '0'
+       
+    let ITEMID = '0'
         let h_id = req.data.EBELN_ID
         
         let itemdraft_val = await SELECT.from("wholefoodService.PO_ITEM.drafts").columns('EBELP').where({EBELN_ID : h_id});
@@ -50,6 +95,9 @@ module.exports = function (){
             itemdraft_val.sort(function(a,b){ a.EBELP - b.EBELP})
             ITEMID = itemdraft_val[itemdraft_val.length - 1].EBELP
         ITEMID = parseInt(ITEMID) 
+        if(ITEMID > 80){
+            return req.error("Purchase order can't have more than 9 Items")
+        }
         ITEMID = ITEMID + 10
          req.data.EBELP = String(ITEMID).padStart(4,'0')  } 
        else {
@@ -75,10 +123,10 @@ module.exports = function (){
                 if(req.data.MENGE != undefined){
                     if(req.data.MENGE < 1 ){
                         //let item_error = await SELECT.from("wholefoodService.PO_ITEM.drafts").columns('EBELP').where({ID : req.data.ID});
-                    return req.error({ code : 409, message : `Quantity entered should be greater than zero`, target : 'MENGE'})}
+                     req.error({ code : 409, message : `Quantity entered should be greater than zero`, target : 'MENGE'})}
                 
                 else if(req.data.MENGE > 1000){
-                    return req.error({ code : 409, message : `Quantity entered should be less than 1000`, target : 'MENGE'})
+                     req.error({ code : 409, message : `Quantity entered should be less than 1000`, target : 'MENGE'})
 
                 }
             
@@ -99,6 +147,7 @@ module.exports = function (){
         
     }) 
      
+    
    
  
    
