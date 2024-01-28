@@ -9,11 +9,16 @@ module.exports = function (){
         
         let temp 
         let HeadID = '0'
+        let numEBELN =[]
         let head_val = await SELECT.from("wholefoodService.PO_HEAD").columns('EBELN');
+        
         if(head_val.length > 0){
-            head_val.sort(function(a,b){ a.EBELP - b.EBELN})
-            HeadID = head_val[head_val.length - 1].EBELN
-            HeadID = parseInt(HeadID)
+            
+           for(let a = 0 ; a < head_val.length ; a++){
+            numEBELN[a] = parseInt(head_val[a].EBELN) }
+            temp = numEBELN.sort(function(a, b){return a-b})
+            
+            HeadID = temp[temp.length - 1]
             HeadID = HeadID + 1
             temp = String(HeadID).padStart(10,'0')
             req.data.EBELN = temp
@@ -53,7 +58,8 @@ module.exports = function (){
      
      for(let y = 0 ; y < arrItemlen ; y++ ){
         console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        test =  await SELECT.from("wholefoodService.MARD").columns('MATNR','WERKS').where({ WERKS_WERKS : arrItem[y].WERKS ,MATNR_MATNR : arrItem[y].MATNR });
+        test =  await SELECT.from("wholefoodService.MARD").where({ WERKS_WERKS : arrItem[y].WERKS_WERKS ,MATNR_MATNR : arrItem[y].MATNR_MATNR });
+       console.log(arrItem[y].WERKS + " " + arrItem[y].MATNR_MATNR)
         console.log(test.length)
         console.log(JSON.stringify(test))
         console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@")
@@ -64,7 +70,7 @@ module.exports = function (){
                 }
                 else {
                     console.log("###################################")
-                    await UPDATE(MARD).set({ LABST: { '+=': arrItem[y].LABST }}).where({ WERKS_WERKS : arrItem[y].WERKS ,MATNR_MATNR : arrItem[y].MATNR  });
+                    await UPDATE(MARD).set({ LABST: { '+=': arrItem[y].LABST }}).where({ WERKS_WERKS : arrItem[y].WERKS_WERKS ,MATNR_MATNR : arrItem[y].MATNR_MATNR  });
                     console.log("44444444444444444444444444444444444")
                 }
                
@@ -142,13 +148,15 @@ module.exports = function (){
                 
                 }
         
-        
+                
        
         
     }) 
      
     
-   
+    this.before ('SAVE','PO_HEAD', async (req)=>{console.log("save")})
+    this.before ('UPDATE','PO_HEAD', async (req)=>{console.log("update")})
+    this.before ('EDIT','PO_HEAD', async (req)=>{console.log("edit")})
  
    
 }
