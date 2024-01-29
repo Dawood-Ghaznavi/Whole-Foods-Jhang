@@ -6,7 +6,7 @@ module.exports = function (){
    
 
     this.before ('CREATE','PO_HEAD', async (req)=>{
-        
+        console.log("CREATE")
         let temp 
         let HeadID = '0'
         let numEBELN =[]
@@ -34,17 +34,20 @@ module.exports = function (){
         req.notify(`Purchase Order ${temp} Created`)
         let lenItem = req.data.EBELP.length
         const arrItem = []
-        let mID , plID, mng
+        let mID , plID, mng , IT_ID, PO_ID
         let similarityIndex
         for (let x = 0 ; x <lenItem ; x++){
            
             mID = req.data.EBELP[x].MATNR_MATNR
             plID = req.data.EBELP[x].WERKS_WERKS
             mng = req.data.EBELP[x].MENGE
+            IT_ID = req.data.EBELP[x].ID
+            PO_ID = req.data.ID
+
              similarityIndex = arrItem.findIndex(function (material) {return (material.MATNR === mID) && (material.WERKS === plID)})
 
              if(similarityIndex == -1){
-                const obj = {MATNR_MATNR : mID ,WERKS_WERKS :plID , LABST :mng}
+                const obj = {MATNR_MATNR : mID ,WERKS_WERKS :plID , LABST :mng , ITEM : IT_ID, PURCHASE : PO_ID}
                 arrItem.push(obj)
              }
                 else {
@@ -101,8 +104,8 @@ module.exports = function (){
             itemdraft_val.sort(function(a,b){ a.EBELP - b.EBELP})
             ITEMID = itemdraft_val[itemdraft_val.length - 1].EBELP
         ITEMID = parseInt(ITEMID) 
-        if(ITEMID > 80){
-            return req.error("Purchase order can't have more than 9 Items")
+        if(ITEMID > 90){
+            return req.error("Purchase order can't have more than 10 Items")
         }
         ITEMID = ITEMID + 10
          req.data.EBELP = String(ITEMID).padStart(4,'0')  } 
@@ -122,7 +125,7 @@ module.exports = function (){
 
     this.before ('UPDATE','PO_ITEM.drafts',async (req)=>{
         
-       
+       console.log("update drafts")
             if(req.data){
                 
 
@@ -154,9 +157,65 @@ module.exports = function (){
     }) 
      
     
-    this.before ('SAVE','PO_HEAD', async (req)=>{console.log("save")})
-    this.before ('UPDATE','PO_HEAD', async (req)=>{console.log("update")})
-    this.before ('EDIT','PO_HEAD', async (req)=>{console.log("edit")})
+   
+    this.before ('UPDATE','PO_HEAD', async (req)=>{
+
+       let mardItems =  await SELECT.from("wholefoodService.MARD").columns('ITEM').where({PURCHASE: req.data.ID});
+       let mardLength = mardItems.length
+       let reqItems = req.data.EBELP
+       let reqdelLength = req.data.EBELP.length
+       let count 
+       console.log(mardItems)
+       for(let x = 0 ; x < mardLength ; x++){
+        count = 0
+            for(let y = 0; y < reqdelLength ; y++){
+
+        if(mardItems[x].ITEM == reqItems[y].ID){
+            break
+        }
+          count = count + 1
+          
+        if(count == reqdelLength){
+            console.log("  OOOO   " + mardItems[x].ITEM) 
+            await DELETE.from("wholefoodService.MARD").where({ ITEM: mardItems[x].ITEM });
+        }
+
+
+            }
+}
+if(reqdelLength < 1){
+
+    await DELETE.from("wholefoodService.MARD").where({ PURCHASE: req.data.ID });
+}
+
+
+})
+    
+    this.before ('DELETE','PO_HEAD', async (req)=>{
+      let Po_ID = req.data.ID
+      console.log(JSON.stringify(req.data))
+        await DELETE.from("wholefoodService.MARD").where({ PURCHASE: Po_ID });
+
+
+})
+
+
+//this.before ('error','wholefoodService.PO_ITEM',async (req)=>{
+//
+  //  for(let x=0 ; x < req.details.length; x++){
+//if(req.details[x].element === "WERKS_WERKS"){
+ //   let strr = req.details[x].target.slice(12,48)
+//console.log("yyyyeeeessss")
+//   let itNUM = await SELECT.from("wholefoodService.PO_ITEM.drafts")
+//   console.log(req.details[x].message + "   OOOOOOOOOOOOOOOO   " + strr + itNUM)
+//   req.details[x].message = `Enter Plant ID for item No. ${itNUM}`
+//}
+//
+//
+//
+  //  }
+//})
+    
  
    
 }

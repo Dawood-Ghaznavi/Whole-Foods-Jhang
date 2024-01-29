@@ -70,6 +70,8 @@ context Wholefoods {
         key MATNR : Association to Materials; //Material ID
         key WERKS : Association to Plants; //Plant ID
             LABST : Integer; //Unrestricted Stock
+            ITEM : String (40);
+            PURCHASE : String(40)
             
     }
 
@@ -78,8 +80,8 @@ context Wholefoods {
         key ID    : UUID @Core.Computed: true;
             EBELP : String(4); //Item Number
             EBELN : Association to PO_HEAD; //Purchasing Document Number
-            WERKS : Association to Plants; //Plant ID
-            MATNR : Association to Materials; //Material ID
+            WERKS : Association to Plants  @mandatory; //Plant ID
+            MATNR : Association to Materials  @mandatory; //Material ID
             MENGE : Integer; //PO Quantity
            
     }
