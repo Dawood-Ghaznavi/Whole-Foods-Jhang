@@ -159,25 +159,34 @@ module.exports = function (){
     
    
     this.before ('UPDATE','PO_HEAD', async (req)=>{
-
-       let mardItems =  await SELECT.from("wholefoodService.MARD").columns('ITEM').where({PURCHASE: req.data.ID});
-       let mardLength = mardItems.length
+        let POitems =  await SELECT.from("wholefoodService.PO_ITEM").where({EBELN_ID: req.data.ID});
+        let POitemsLEN = POitems.length
+        
        let reqItems = req.data.EBELP
        let reqdelLength = req.data.EBELP.length
        let count 
-       console.log(mardItems)
-       for(let x = 0 ; x < mardLength ; x++){
+       
+       for(let x = 0 ; x < POitemsLEN ; x++){
         count = 0
             for(let y = 0; y < reqdelLength ; y++){
 
-        if(mardItems[x].ITEM == reqItems[y].ID){
+        if(POitems[x].ID == reqItems[y].ID){
             break
         }
           count = count + 1
-          
+          console.log(POitems[x].ID + "    OOOOOOOOOOOOOO   " + reqItems[y].ID  + "     OOOOO     "  + count  + " OOOO  " + reqdelLength)
         if(count == reqdelLength){
-            console.log("  OOOO   " + mardItems[x].ITEM) 
-            await DELETE.from("wholefoodService.MARD").where({ ITEM: mardItems[x].ITEM });
+            let MardItm = await SELECT.one.from("wholefoodService.MARD").columns('MATNR_MATNR','WERKS_WERKS','LABST').where({WERKS_WERKS: POitems[x].WERKS_WERKS,MATNR_MATNR : POitems[x].MATNR_MATNR});
+            if(MardItm.LABST === POitems[x].MENGE){
+                await DELETE.from("wholefoodService.MARD").where({ WERKS_WERKS: MardItm.WERKS_WERKS, MATNR_MATNR : MardItm.MATNR_MATNR });
+
+            }
+            else{
+
+                await UPDATE(MARD).set({ LABST: { '-=': POitems[x].MENGE}}).where({ WERKS_WERKS :  MardItm.WERKS_WERKS,MATNR_MATNR :  MardItm.MATNR_MATNR  });   
+
+            }
+            
         }
 
 
@@ -185,16 +194,42 @@ module.exports = function (){
 }
 if(reqdelLength < 1){
 
-    await DELETE.from("wholefoodService.MARD").where({ PURCHASE: req.data.ID });
-}
+    for (let x = 0 ; x< POitems.length ; x++){
+        let MardItm = await SELECT.one.from("wholefoodService.MARD").columns('MATNR_MATNR','WERKS_WERKS','LABST').where({WERKS_WERKS: POitems[x].WERKS_WERKS,MATNR_MATNR : POitems[x].MATNR_MATNR});
+            if(MardItm.LABST === POitems[x].MENGE){
+                await DELETE.from("wholefoodService.MARD").where({ WERKS_WERKS: MardItm.WERKS_WERKS, MATNR_MATNR : MardItm.MATNR_MATNR });
 
+            }
+            else{
+
+                await UPDATE(MARD).set({ LABST: { '-=': POitems[x].MENGE}}).where({ WERKS_WERKS :  MardItm.WERKS_WERKS,MATNR_MATNR :  MardItm.MATNR_MATNR  });   
+
+            }
+}
+}
 
 })
     
     this.before ('DELETE','PO_HEAD', async (req)=>{
       let Po_ID = req.data.ID
-      console.log(JSON.stringify(req.data))
-        await DELETE.from("wholefoodService.MARD").where({ PURCHASE: Po_ID });
+      let ItemItm = await SELECT.from("wholefoodService.PO_ITEM").columns('MATNR_MATNR','WERKS_WERKS','MENGE').where({EBELN_ID: Po_ID});
+      
+      for (let x = 0 ; x< ItemItm.length ; x++){
+        let MardItm = await SELECT.one.from("wholefoodService.MARD").columns('MATNR_MATNR','WERKS_WERKS','LABST').where({WERKS_WERKS: ItemItm[x].WERKS_WERKS,MATNR_MATNR : ItemItm[x].MATNR_MATNR});
+            if(MardItm.LABST === ItemItm[x].MENGE){
+                await DELETE.from("wholefoodService.MARD").where({ WERKS_WERKS: MardItm.WERKS_WERKS, MATNR_MATNR : MardItm.MATNR_MATNR });
+
+            }
+            else{
+
+                await UPDATE(MARD).set({ LABST: { '-=': ItemItm[x].MENGE}}).where({ WERKS_WERKS :  MardItm.WERKS_WERKS,MATNR_MATNR :  MardItm.MATNR_MATNR  });   
+
+            }
+
+
+        }
+      
+       
 
 
 })
