@@ -14,7 +14,7 @@ annotate service.Materials with {
     MATNR       @(title: '{i18n>ID}');
     GROUP     @(title: '{i18n>group}');
     TYPE        @(title: '{i18n>type}');
-    MAKTX       @(title: '{i18n>description}');
+    MAKTX       @(title: '{i18n>materialdescription}');
     UOM         @(title: '{i18n>unitofmeasure}');
     createdBy   @(title: '{i18n>createdBy}')   @UI.HiddenFilter: false;
     createdAt   @(title: '{i18n>createdOn}')   @UI.HiddenFilter: false;

@@ -13,7 +13,25 @@ annotate service.PO_ITEM  with {
     modifiedBy  @(title: '{i18n>modifiedBy}')  @UI.HiddenFilter: false;
     modifiedAt  @(title: '{i18n>modifiedOn}')  @UI.HiddenFilter: false;
 
-}    
+}  
+
+annotate service.PO_ITEM @(Common : {
+    SideEffects #WERKS : {
+        $Type : 'Common.SideEffectsType',
+        SourceProperties : ['WERKS_WERKS'],
+        TargetEntities   : ['WERKS'],
+       
+    }
+});  
+
+annotate service.PO_ITEM @(Common : {
+    SideEffects #MATNR  : {
+        $Type : 'Common.SideEffectsType',
+        SourceProperties : ['MATNR_MATNR'],
+        TargetEntities   : ['MATNR'],
+       
+    }
+});  
 
 annotate service.PO_ITEM @(UI : {
     
@@ -190,9 +208,3 @@ annotate service.PO_ITEM   with {
 
 
 
-annotate service.PO_ITEM @(Common : {
-    SideEffects  : {
-        SourceProperties : ['MATNR_MATNR','WERKS_WERKS'],
-        TargetEntities   : ['']
-    }
-});

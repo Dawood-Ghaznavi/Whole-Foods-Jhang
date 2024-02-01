@@ -80,9 +80,11 @@ context Wholefoods {
         key ID    : UUID @Core.Computed: true;
             EBELP : String(4); //Item Number
             EBELN : Association to PO_HEAD; //Purchasing Document Number
-            WERKS : Association to Plants  @mandatory; //Plant ID
-            MATNR : Association to Materials  @mandatory; //Material ID
+            WERKS : Association to Plants; //Plant ID
+            MATNR : Association to Materials; //Material ID
             MENGE : Integer; //PO Quantity
+          
+       
            
     }
 

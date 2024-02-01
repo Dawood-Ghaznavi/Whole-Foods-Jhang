@@ -11,7 +11,7 @@ using wholefoodService as service from '../../catalog-service';
 
 annotate service.Plants with {
     WERKS       @(title: '{i18n>plantID}');
-    NAME1       @(title: '{i18n>name}');
+    NAME1       @(title: '{i18n>plantname}');
     STRAS       @(title: '{i18n>houseNo}');
     PSTLZ       @(title: '{i18n>postalCode}');
     ORT01       @(title: '{i18n>city}');

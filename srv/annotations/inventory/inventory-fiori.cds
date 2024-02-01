@@ -4,7 +4,8 @@ annotate service.MARD with {
     MATNR       @(title: '{i18n>materialID}');
     WERKS     @(title: '{i18n>plantID}');
     LABST       @(title: '{i18n>unrestrictedstock}');
-    UOM         @(title: '{i18n>unitofmeasure}'); 
+    ITEM         @(title: '{i18n>item}') @UI.Hidden : true;
+    PURCHASE    @(title: '{i18n>purchase}') @UI.Hidden : true;
     createdBy   @(title: '{i18n>createdBy}')   @UI.HiddenFilter: false;
     createdAt   @(title: '{i18n>createdOn}')   @UI.HiddenFilter: false;
     modifiedBy  @(title: '{i18n>modifiedBy}')  @UI.HiddenFilter: false;
@@ -29,10 +30,21 @@ annotate service.MARD with @(UI : {
             $Type : 'UI.DataField',
             Value : MATNR_MATNR,
             ![@HTML5.CssDefaults] : {width : 'auto'}
+        }, 
+        {
+            $Type : 'UI.DataField',
+            Value : MATNR.MAKTX,
+            ![@HTML5.CssDefaults] : {width : 'auto'}
         },
         {
             $Type             : 'UI.DataField',
             Value             : WERKS_WERKS,
+            ![@UI.Importance] : #High,
+            ![@HTML5.CssDefaults] : {width : 'auto'}
+        },
+        {
+            $Type             : 'UI.DataField',
+            Value             : WERKS.NAME1,
             ![@UI.Importance] : #High,
             ![@HTML5.CssDefaults] : {width : 'auto'}
         },
@@ -83,7 +95,9 @@ annotate service.MARD with @(UI : {
     ],
     FieldGroup #BasicInfo          : {Data : [
         {Value : MATNR_MATNR},
+         {Value : MATNR.MAKTX},
         {Value : WERKS_WERKS},
+        {Value : WERKS.NAME1},
         {Value : LABST},
         {Value : MATNR.UOM}
         

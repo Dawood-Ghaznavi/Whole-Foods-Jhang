@@ -1,3 +1,4 @@
+let cds = require('@sap/cds');
 module.exports = function (){
    
     const { PO_HEAD} = this.entities()
@@ -6,7 +7,22 @@ module.exports = function (){
    
 
     this.before ('CREATE','PO_HEAD', async (req)=>{
-        console.log("CREATE")
+        
+       
+        console.log("Length is  : " + req.data.EBELP.length)
+        
+        for(let x = 0 ; x < req.data.EBELP.length ; x++){
+                console.log(" DATA" + req.data.EBELP[x].WERKS_WERKS)
+            if(req.data.EBELP[x].WERKS_WERKS == null){
+                console.log("Inside IF")
+                console.log(req.data.EBELP[x].EBELP)
+                cds.error({ code : 409, message : `Plant ID for Item ${req.data.EBELP[x].EBELP} is Null`, target : 'MENGE'})
+                
+            }
+
+
+        }
+console.log("REST is running")
         let temp 
         let HeadID = '0'
         let numEBELN =[]
@@ -89,9 +105,7 @@ module.exports = function (){
         
        }) 
 
-    
    
-
       
 
    this.before ('CREATE', 'PO_ITEM.drafts',async (req)=>{
