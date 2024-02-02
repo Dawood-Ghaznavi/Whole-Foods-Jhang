@@ -139,7 +139,7 @@ console.log("REST is running")
 
     this.before ('UPDATE','PO_ITEM.drafts',async (req)=>{
         
-       console.log("update drafts")
+      
             if(req.data){
                 
 
@@ -219,8 +219,55 @@ if(reqdelLength < 1){
                 await UPDATE(MARD).set({ LABST: { '-=': POitems[x].MENGE}}).where({ WERKS_WERKS :  MardItm.WERKS_WERKS,MATNR_MATNR :  MardItm.MATNR_MATNR  });   
 
             }
+}}
+
+let test
+let newItem 
+let check
+for (let x = 0 ; x < req.data.EBELP.length ; x++ ){
+check =await SELECT.one.from("wholefoodService.PO_ITEM").where({ID : reqItems[x].ID});
+
+if(check === null){
+    test =  await SELECT.one.from("wholefoodService.MARD").where({ WERKS_WERKS : reqItems[x].WERKS_WERKS ,MATNR_MATNR : reqItems[x].MATNR_MATNR });
+    console.log(reqItems[x].MATNR_MATNR + "Does mard contain this ITEM " + test === null)
+    if(test === null){
+       newItem =  {MATNR_MATNR : reqItems[x].MATNR_MATNR ,WERKS_WERKS : reqItems[x].WERKS_WERKS, LABST : reqItems[x].MENGE , ITEM : reqItems[x].ID, PURCHASE : reqItems[x].EBELN_ID}
+       await INSERT(newItem).into(MARD);
+    }
+    else{
+        await UPDATE(MARD).set({ LABST: { '+=': reqItems[x].MENGE }}).where({ WERKS_WERKS : reqItems[x].WERKS_WERKS ,MATNR_MATNR : reqItems[x].MATNR_MATNR  });
+ }
 }
+else{
+        if(reqItems[x].WERKS_WERKS != check.WERKS_WERKS || reqItems[x].MATNR_MATNR != check.MATNR_MATNR || reqItems[x].MENGE != check.MENGE){
+            test =  await SELECT.one.from("wholefoodService.MARD").where({ WERKS_WERKS : check.WERKS_WERKS ,MATNR_MATNR : check.MATNR_MATNR });
+            if(test !== null){
+                if(check.MENGE === test.LABST){
+                    await DELETE.from("wholefoodService.MARD").where({ WERKS_WERKS: check.WERKS_WERKS, MATNR_MATNR : check.MATNR_MATNR });
+                }
+                else{
+                    await UPDATE(MARD).set({ LABST: { '-=': check.MENGE }}).where({ WERKS_WERKS : check.WERKS_WERKS ,MATNR_MATNR : check.MATNR_MATNR  });
+                }  }
+            let createNew = await SELECT.one.from("wholefoodService.MARD").where({ WERKS_WERKS : reqItems[x].WERKS_WERKS ,MATNR_MATNR : reqItems[x].MATNR_MATNR });
+            if(createNew === null) {
+                newItem =  {MATNR_MATNR : reqItems[x].MATNR_MATNR ,WERKS_WERKS : reqItems[x].WERKS_WERKS, LABST : reqItems[x].MENGE , ITEM : reqItems[x].ID, PURCHASE : reqItems[x].EBELN_ID}
+                await INSERT(newItem).into(MARD);
+            }
+            else{
+                await UPDATE(MARD).set({ LABST: { '+=': reqItems[x].MENGE }}).where({ WERKS_WERKS : reqItems[x].WERKS_WERKS ,MATNR_MATNR : reqItems[x].MATNR_MATNR  });
+         }
+
+
+
+        }
 }
+
+
+}
+
+
+
+
 
 })
     
@@ -230,15 +277,19 @@ if(reqdelLength < 1){
       
       for (let x = 0 ; x< ItemItm.length ; x++){
         let MardItm = await SELECT.one.from("wholefoodService.MARD").columns('MATNR_MATNR','WERKS_WERKS','LABST').where({WERKS_WERKS: ItemItm[x].WERKS_WERKS,MATNR_MATNR : ItemItm[x].MATNR_MATNR});
+        console.log("mard item is " + (MardItm === null))
+        if(MardItm !== null){
+            
+        
+       
             if(MardItm.LABST === ItemItm[x].MENGE){
                 await DELETE.from("wholefoodService.MARD").where({ WERKS_WERKS: MardItm.WERKS_WERKS, MATNR_MATNR : MardItm.MATNR_MATNR });
 
             }
             else{
-
                 await UPDATE(MARD).set({ LABST: { '-=': ItemItm[x].MENGE}}).where({ WERKS_WERKS :  MardItm.WERKS_WERKS,MATNR_MATNR :  MardItm.MATNR_MATNR  });   
 
-            }
+            } }
 
 
         }
