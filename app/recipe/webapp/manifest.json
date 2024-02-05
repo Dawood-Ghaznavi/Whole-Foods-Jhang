@@ -1,7 +1,7 @@
 {
   "_version": "1.59.0",
   "sap.app": {
-    "id": "purchaseorder",
+    "id": "recipe",
     "type": "application",
     "i18n": "i18n/i18n.properties",
     "applicationVersion": {
@@ -12,8 +12,8 @@
     "resources": "resources.json",
     "sourceTemplate": {
       "id": "@sap/generator-fiori:lrop",
-      "version": "1.12.2",
-      "toolsId": "62d43747-b696-487c-a5c8-ab43e9928fc1"
+      "version": "1.12.3",
+      "toolsId": "cba2cc09-34be-488b-a784-b44b701104cd"
     },
     "dataSources": {
       "mainService": {
@@ -27,8 +27,8 @@
     },
     "crossNavigation": {
       "inbounds": {
-        "purchase order-manage": {
-          "semanticObject": "purchase order",
+        "recipe-manage": {
+          "semanticObject": "recipe",
           "action": "manage",
           "title": "{{flpTitle}}",
           "signature": {
@@ -58,7 +58,7 @@
   "sap.ui5": {
     "flexEnabled": true,
     "dependencies": {
-      "minUI5Version": "1.120.4",
+      "minUI5Version": "1.120.6",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},
@@ -74,7 +74,7 @@
       "i18n": {
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
-          "bundleName": "purchaseorder.i18n.i18n"
+          "bundleName": "recipe.i18n.i18n"
         }
       },
       "": {
@@ -99,49 +99,49 @@
       "routes": [
         {
           "pattern": ":?query:",
-          "name": "PO_HEADList",
-          "target": "PO_HEADList"
+          "name": "RECIPE_HEADList",
+          "target": "RECIPE_HEADList"
         },
         {
-          "pattern": "PO_HEAD({key}):?query:",
-          "name": "PO_HEADObjectPage",
-          "target": "PO_HEADObjectPage"
+          "pattern": "RECIPE_HEAD({key}):?query:",
+          "name": "RECIPE_HEADObjectPage",
+          "target": "RECIPE_HEADObjectPage"
         }
       ],
       "targets": {
-        "PO_HEADList": {
+        "RECIPE_HEADList": {
           "type": "Component",
-          "id": "PO_HEADList",
+          "id": "RECIPE_HEADList",
           "name": "sap.fe.templates.ListReport",
           "options": {
             "settings": {
-              "contextPath": "/PO_HEAD",
+              "contextPath": "/RECIPE_HEAD",
               "variantManagement": "Page",
               "navigation": {
-                "PO_HEAD": {
+                "RECIPE_HEAD": {
                   "detail": {
-                    "route": "PO_HEADObjectPage"
+                    "route": "RECIPE_HEADObjectPage"
                   }
                 }
               }
             }
           }
         },
-        "PO_HEADObjectPage": {
+        "RECIPE_HEADObjectPage": {
           "type": "Component",
-          "id": "PO_HEADObjectPage",
+          "id": "RECIPE_HEADObjectPage",
           "name": "sap.fe.templates.ObjectPage",
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "contextPath": "/PO_HEAD",
+              "contextPath": "/RECIPE_HEAD",
               "navigation": {},
               "controlConfiguration": {
-                "EBELP/@com.sap.vocabularies.UI.v1.LineItem#iteminp": {
+                "RECIPE_ITM/@com.sap.vocabularies.UI.v1.LineItem#ingtable": {
                   "tableSettings": {
                     "creationMode": {
-                      "createAtEnd": true,
-                      "name": "Inline"
+                      "name": "Inline",
+                      "createAtEnd": true
                     }
                   }
                 }

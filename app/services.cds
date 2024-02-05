@@ -16,3 +16,5 @@ using from './businesspartnerroles/annotations';
 using from './inventory/annotations';
 
 using from './purchaseorder/annotations';
+
+using from './recipe/annotations';

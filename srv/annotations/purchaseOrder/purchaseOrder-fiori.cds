@@ -2,7 +2,7 @@ using wholefoodService as service from '../../catalog-service';
 using from '../PO_ITEM/PO_ITEM-fiori';
 
 annotate service.PO_HEAD with {
-    EBELN       @(title: '{i18n>purchaseordernumber}');     
+    EBELN       @(title: '{i18n>purchaseorderno}');     
     EBELP       @(title: '{i18n>itemnumber}');
     PARTNER     @(title: '{i18n>businesspartnerid}');
     createdBy   @(title: '{i18n>createdBy}')   @UI.HiddenFilter: false;
@@ -108,7 +108,6 @@ annotate service.PO_HEAD with {
             });
 };
 
-//annotate service.PO_HEAD with @(UI: {UpdateHidden : true});
 
 annotate service.PO_HEAD with {
     

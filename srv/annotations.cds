@@ -7,3 +7,4 @@ using from './annotations/roles/roles-fiori';
 using from './annotations/businessPartnerRoles/businessPartnerRoles-fiori';
 using from './annotations/inventory/inventory-fiori';
 using from './annotations/purchaseOrder/purchaseOrder-fiori';
+using from './annotations/recipeHead/recipeHead-fiori';

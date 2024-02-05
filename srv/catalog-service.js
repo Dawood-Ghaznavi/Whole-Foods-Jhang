@@ -3,26 +3,43 @@ module.exports = function (){
    
     const { PO_HEAD} = this.entities()
     const { PO_ITEM} = this.entities()
-    const {MARD} = this.entities()
-   
+    const {MARD,RECIPE_HEAD,RECIPE_ITEM} = this.entities()
 
-    this.before ('CREATE','PO_HEAD', async (req)=>{
-        
-       
-        console.log("Length is  : " + req.data.EBELP.length)
-        
+       this.before ('CREATE','PO_HEAD', async (req)=>{
+        if(req.data.PARTNER_PARTNER == null){
+                req.error({code :   409,message :   `Business Partner cannot be Null`, target :  'PARTNER_PARTNER'})
+                                            }
+
         for(let x = 0 ; x < req.data.EBELP.length ; x++){
-                console.log(" DATA" + req.data.EBELP[x].WERKS_WERKS)
-            if(req.data.EBELP[x].WERKS_WERKS == null){
-                console.log("Inside IF")
-                console.log(req.data.EBELP[x].EBELP)
-                cds.error({ code : 409, message : `Plant ID for Item ${req.data.EBELP[x].EBELP} is Null`, target : 'MENGE'})
                 
-            }
+            if(req.data.EBELP[x].WERKS_WERKS == null){
+                
+                req.error({ code : 409, message : `Plant ID for Item ${req.data.EBELP[x].EBELP} cannot be Null`, target : `EBELP/WERKS_WERKS`})
+                                                     }
+            if(req.data.EBELP[x].MATNR_MATNR == null){
+                
+                req.error({ code : 409, message : `Material ID for Item ${req.data.EBELP[x].EBELP} cannot be Null`, target : `EBELP.MATNR_MATNR`})
+                                                    }
+            if(req.data.EBELP[x].MENGE == null){
+                
+                req.error({ code : 409, message : `Quantity for Item ${req.data.EBELP[x].EBELP} cannot Null`, target : `EBELP[0].MENGE`})
+                                                    }
+            else{
+                if(req.data.EBELP[x].MENGE < 1){
+                    req.error({ code : 409, message : `Quantity for Item ${req.data.EBELP[x].EBELP} should be greater than 0`, target : `EBELP.MENGE`})  
+                    }
+                else if(req.data.EBELP[x].MENGE > 1000){
+                    req.error({ code : 409, message : `Quantity for Item ${req.data.EBELP[x].EBELP} should be less than 1000`, target : `EBELP.MENGE`})
 
+                }
 
-        }
-console.log("REST is running")
+            }                                                                                  
+
+                                                             }
+        if(req.errors)  {
+            req.reject()
+                        }
+        
         let temp 
         let HeadID = '0'
         let numEBELN =[]
@@ -136,7 +153,7 @@ console.log("REST is running")
         
     })
 
-
+/*
     this.before ('UPDATE','PO_ITEM.drafts',async (req)=>{
         
       
@@ -144,6 +161,7 @@ console.log("REST is running")
                 
 
                 if(req.data.MENGE != undefined){
+                    console.log("DRAFS UPDATE" + JSON.stringify(req.data))
                     if(req.data.MENGE < 1 ){
                         //let item_error = await SELECT.from("wholefoodService.PO_ITEM.drafts").columns('EBELP').where({ID : req.data.ID});
                      req.error({ code : 409, message : `Quantity entered should be greater than zero`, target : 'MENGE'})}
@@ -169,7 +187,7 @@ console.log("REST is running")
        
         
     }) 
-     
+   */  
     
    
     this.before ('UPDATE','PO_HEAD', async (req)=>{
@@ -317,6 +335,63 @@ else{
 //})
     
  
+this.before ('CREATE','RECIPE_HEAD', async (req)=>{
+
+    let temp 
+    let HeadID = '0'
+    let numEBELN =[]
+    let head_val = await SELECT.from("wholefoodService.RECIPE_HEAD").columns('RECIPE');
+    console.log(JSON.stringify(head_val))
+    if(head_val.length > 0){
+        
+       for(let a = 0 ; a < head_val.length ; a++){
+        numEBELN[a] = parseInt(head_val[a].RECIPE) }
+        temp = numEBELN.sort(function(a, b){return a-b})
+        
+        HeadID = temp[temp.length - 1]
+        HeadID = HeadID + 1
+        temp = String(HeadID).padStart(10,'0')
+        req.data.RECIPE = temp
+
+    }
+    else {
+        HeadID = parseInt(HeadID)
+        HeadID = HeadID + 1
+        temp = String(HeadID).padStart(10,'0') 
+        req.data.RECIPE = temp
+
+    }
+
+
+})
+
+this.before ('CREATE', 'RECIPE_ITEM.drafts',async (req)=>{
+       
+    let ITEMID = '0'
+        let h_id = req.data.RECIPE_ID
+        
+        let itemdraft_val = await SELECT.from("wholefoodService.RECIPE_ITEM.drafts").columns('RECIPE_ITM').where({RECIPE_ID: h_id});
+        if(itemdraft_val.length > 0){
+            itemdraft_val.sort(function(a,b){ a.RECIPE_ITM - b.RECIPE_ITM})
+            ITEMID = itemdraft_val[itemdraft_val.length - 1].RECIPE_ITM
+        ITEMID = parseInt(ITEMID) 
+        ITEMID = ITEMID + 10
+         req.data.RECIPE_ITM = String(ITEMID).padStart(4,'0')  } 
+
+       else {
+        ITEMID = parseInt(ITEMID) 
+        ITEMID = ITEMID + 10
+        req.data.RECIPE_ITM = String(ITEMID).padStart(4,'0') 
+
+       }
+      
+        
+        
+       
+        
+    })
+
+
    
 }
 

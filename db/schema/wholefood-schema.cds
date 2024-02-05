@@ -93,7 +93,7 @@ context Wholefoods {
             EBELN   : String(10); //Purchasing Document Number
             EBELP   : Composition of many PO_ITEM
                           on EBELP.EBELN = $self; //Item Number
-            PARTNER : Association to BPGENERAL @mandatory; //Business Partner ID
+            PARTNER : Association to BPGENERAL; //Business Partner ID
 
 
     }
@@ -110,6 +110,24 @@ context Wholefoods {
                  TYPE  : Association to MatTypes; //Material type
           MAKTX : String(40); //Material desciption
             }
+
+
+    entity RECIPE_HEAD : managed {
+            key ID : UUID @Core.Computed: true;
+            RECIPE : String(10); //Recipe Number
+            MATNR : Association to Materials; //Finished Material
+            RECIPEQTY : Integer default '1'; //Quantity
+            RECIPE_ITM : Composition of many RECIPE_ITEM on RECIPE_ITM.RECIPE = $self; // Item Number
+     }
+
+     entity RECIPE_ITEM : managed{
+        key ID : UUID @Core.Computed: true;
+        RECIPE : Association to RECIPE_HEAD; // Recipe Number
+        RECIPE_ITM : String(4);  // Item Number
+        MATNR : Association to Materials; //Raw Material
+        RAWQTY : Double ; // Raw Material Quantity
+     }
+
 
 
 }

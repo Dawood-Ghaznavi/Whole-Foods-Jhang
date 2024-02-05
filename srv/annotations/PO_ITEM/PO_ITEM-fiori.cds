@@ -3,11 +3,10 @@ using wholefoodService as service from '../../catalog-service';
 
 annotate service.PO_ITEM  with {
     EBELP       @(title: '{i18n>itemnumber}');
-    EBELN       @(title: '{i18n>purchaseordernumber}');
+    EBELN       @(title: '{i18n>purchaseorderno}');
     WERKS     @(title: '{i18n>plantID}');
     MATNR     @(title: '{i18n>materialID}');
     MENGE     @(title: '{i18n>quantity}');
-    UOM     @(title: '{i18n>unitofmeasure}');
     createdBy   @(title: '{i18n>createdBy}')   @UI.HiddenFilter: false;
     createdAt   @(title: '{i18n>createdOn}')   @UI.HiddenFilter: false;
     modifiedBy  @(title: '{i18n>modifiedBy}')  @UI.HiddenFilter: false;
@@ -42,7 +41,8 @@ annotate service.PO_ITEM @(UI : {
             $Type             : 'UI.DataField',
             Value             : EBELP,
             ![@UI.Importance] : #High,
-            ![@HTML5.CssDefaults]  : {width : 'auto'}
+            ![@HTML5.CssDefaults]  : {width : 'auto'},
+            ![@Common.FieldControl] : #ReadOnly
             
         },
         {
@@ -108,14 +108,15 @@ annotate service.PO_ITEM @(UI : {
   
 });
 
-annotate service.PO_ITEM   with @(UI: {UpdateHidden : true});
+/*
+//annotate service.PO_ITEM   with @(UI: {UpdateHidden : true});
 
 annotate service.PO_ITEM   with @(UI : {HeaderInfo : {
     TypeName       : '{i18n>item}',
    TypeNamePlural : '{i18n>items}',
-    Title          : {Value : EBELP},
+    //Title          : {Value : EBELP},
     //Description    : {Value : MATNR_MATNR},
-    TypeImageUrl   : 'sap-icon://product',
+    //TypeImageUrl   : 'sap-icon://product',
 }});
 
 annotate service.PO_ITEM  with @(UI : {
@@ -158,6 +159,7 @@ annotate service.PO_ITEM  with @(UI : {
 annotate service.PO_ITEM  with {
     EBELP @Common.FieldControl : #ReadOnly
 }
+*/
 
 annotate service.PO_ITEM  with {
     MATNR @(Common : {
