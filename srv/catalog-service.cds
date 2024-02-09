@@ -30,7 +30,11 @@ service wholefoodService {
      entity RECIPE_HEAD as projection on wholefood.Wholefoods.RECIPE_HEAD;
 
       entity RECIPE_ITEM as projection on wholefood.Wholefoods.RECIPE_ITEM;
-    
-    
+
+    //entity LISTFINISHED as select from Materials  left outer join RECIPE_HEAD  on Materials.MATNR != RECIPE_HEAD.MAT {Materials.MATNR,MAKTX,Materials.TYPE} where TYPE.MTART = 'FERT' ;
+      
+    //entity LISTFINISHED as select from Materials where TYPE.MTART = 'FERT';
+    entity LISTFINISHED as select from Materials where ((Materials.MATNR not in (select MAT from RECIPE_HEAD)) and (TYPE.MTART = 'FERT'));
+    entity LISTFILTER as select from Materials where TYPE.MTART = 'FERT';
 
 }

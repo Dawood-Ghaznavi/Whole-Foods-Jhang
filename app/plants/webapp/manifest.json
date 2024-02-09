@@ -64,7 +64,8 @@
         "sap.m": {},
         "sap.ui.core": {},
         "sap.ushell": {},
-        "sap.fe.templates": {}
+        "sap.fe.templates": {},
+        "sap.f": {}
       }
     },
     "contentDensities": {
@@ -97,17 +98,28 @@
       "css": []
     },
     "routing": {
-      "config": {},
+      "config": {
+        "flexibleColumnLayout": {
+          "defaultTwoColumnLayoutType": "TwoColumnsBeginExpanded",
+          "defaultThreeColumnLayoutType": "ThreeColumnsMidExpanded"
+        },
+        "routerClass": "sap.f.routing.Router"
+      },
       "routes": [
         {
           "pattern": ":?query:",
           "name": "PlantsList",
-          "target": "PlantsList"
+          "target": [
+            "PlantsList"
+          ]
         },
         {
           "pattern": "Plants({key}):?query:",
           "name": "PlantsObjectPage",
-          "target": "PlantsObjectPage"
+          "target": [
+            "PlantsList",
+            "PlantsObjectPage"
+          ]
         }
       ],
       "targets": {
@@ -127,7 +139,9 @@
                 }
               }
             }
-          }
+          },
+          "controlAggregation": "beginColumnPages",
+          "contextPattern": ""
         },
         "PlantsObjectPage": {
           "type": "Component",
@@ -138,9 +152,17 @@
               "editableHeaderContent": false,
               "contextPath": "/Plants"
             }
-          }
+          },
+          "controlAggregation": "midColumnPages",
+          "contextPattern": "/Plants({key})"
         }
       }
+    },
+    "rootView": {
+      "viewName": "sap.fe.templates.RootContainer.view.Fcl",
+      "type": "XML",
+      "async": true,
+      "id": "appRootView"
     }
   },
   "sap.fiori": {

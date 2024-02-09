@@ -3,7 +3,7 @@ module.exports = function (){
    
     const { PO_HEAD} = this.entities()
     const { PO_ITEM} = this.entities()
-    const {MARD,RECIPE_HEAD,RECIPE_ITEM} = this.entities()
+    const {MARD,RECIPE_HEAD,RECIPE_ITEM,Materials} = this.entities()
 
        this.before ('CREATE','PO_HEAD', async (req)=>{
         if(req.data.PARTNER_PARTNER == null){
@@ -22,7 +22,7 @@ module.exports = function (){
                                                     }
             if(req.data.EBELP[x].MENGE == null){
                 
-                req.error({ code : 409, message : `Quantity for Item ${req.data.EBELP[x].EBELP} cannot Null`, target : `EBELP[0].MENGE`})
+                req.error({ code : 409, message : `Quantity for Item ${req.data.EBELP[x].EBELP} cannot be Null`, target : `EBELP[0].MENGE`})
                                                     }
             else{
                 if(req.data.EBELP[x].MENGE < 1){
@@ -191,6 +191,29 @@ module.exports = function (){
     
    
     this.before ('UPDATE','PO_HEAD', async (req)=>{
+
+        for(let x = 0 ; x < req.data.EBELP.length ; x++){
+
+            if(req.data.EBELP[x].MENGE == null){
+                
+                req.error({ code : 409, message : `Quantity for Item ${req.data.EBELP[x].EBELP} cannot be Null`, target : `EBELP[0].MENGE`})
+                                                    }
+            else{
+                if(req.data.EBELP[x].MENGE < 1){
+                    req.error({ code : 409, message : `Quantity for Item ${req.data.EBELP[x].EBELP} should be greater than 0`, target : `EBELP.MENGE`})  
+                    }
+                else if(req.data.EBELP[x].MENGE > 1000){
+                    req.error({ code : 409, message : `Quantity for Item ${req.data.EBELP[x].EBELP} should be less than 1000`, target : `EBELP.MENGE`})
+
+                }
+
+            }     
+    }
+
+        if(req.errors)  {
+            req.reject()
+                        }
+
         let POitems =  await SELECT.from("wholefoodService.PO_ITEM").where({EBELN_ID: req.data.ID});
         let POitemsLEN = POitems.length
         
@@ -337,6 +360,11 @@ else{
  
 this.before ('CREATE','RECIPE_HEAD', async (req)=>{
 
+    if(req.data.MATNR_MATNR == null){
+        req.error({code :   409,message :   `Material ID for Recipe cannot be Null`, target :  'MATNR_MATNR'})
+                                    }                                
+
+
     let temp 
     let HeadID = '0'
     let numEBELN =[]
@@ -361,7 +389,11 @@ this.before ('CREATE','RECIPE_HEAD', async (req)=>{
         req.data.RECIPE = temp
 
     }
-
+    //await DELETE.from("wholefoodService.LISTFINISHED").where({ MATNR : req.data.MATNR_MATNR });
+    //await SELECT.from("wholefoodService.LISTFINISHED.drafts");
+    
+    req.data.MAT = req.data.MATNR_MATNR
+    req.data.MATN_MATNR = req.data.MATNR_MATNR
 
 })
 
@@ -390,7 +422,18 @@ this.before ('CREATE', 'RECIPE_ITEM.drafts',async (req)=>{
        
         
     })
-
+/*
+    this.before ('DELETE','RECIPE_HEAD', async (req)=>{
+        
+        let mtnr = await SELECT.one.from("wholefoodService.RECIPE_HEAD").columns('MATNR_MATNR').where({ID: req.data.ID});
+        console.log(JSON.stringify(mtnr))
+        let matData = await SELECT.from("wholefoodService.Materials").columns('MATNR','TYPE_MTART','MAKTX')
+        console.log(JSON.stringify(matData))
+        let obj = {MATNR : matData.MATNR, TYPE_MTART : matData.TYPE_MTART , MAKTX : matData.MAKTX}
+        await INSERT(obj).into("wholefoodService.LISTFINISHED");
+        
+    })
+*/
 
    
 }

@@ -104,12 +104,6 @@ context Wholefoods {
         key BROLES   : Association to Roles; //Role Description
         NAME : String(50)
   }
-             entity npm  : managed {
-
-       key MATNR : String(25); //Material ID
-                 TYPE  : Association to MatTypes; //Material type
-          MAKTX : String(40); //Material desciption
-            }
 
 
     entity RECIPE_HEAD : managed {
@@ -118,6 +112,8 @@ context Wholefoods {
             MATNR : Association to Materials; //Finished Material
             RECIPEQTY : Integer default '1'; //Quantity
             RECIPE_ITM : Composition of many RECIPE_ITEM on RECIPE_ITM.RECIPE = $self; // Item Number
+            MAT : String(25);
+            MATN : Association to Materials;
      }
 
      entity RECIPE_ITEM : managed{
@@ -127,6 +123,8 @@ context Wholefoods {
         MATNR : Association to Materials; //Raw Material
         RAWQTY : Double ; // Raw Material Quantity
      }
+
+     
 
 
 

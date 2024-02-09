@@ -5,7 +5,10 @@ annotate service.RECIPE_HEAD with {
     RECIPE      @(title: '{i18n>recipeno}');
     RECIPEQTY   @(title: '{i18n>quantity}');
     RECIPE_ITM  @(title: '{i18n>item}');
-    MATNR       @(title: '{i18n>materialID}');
+    MATN     @(title: '{i18n>materialID}');
+    MAT  @(title: '{i18n>materialID}') @UI.Hidden;
+    ID @(title: '{i18n>materialID}') @UI.Hidden;
+    MATNR       @(title: '{i18n>materialID}') @UI.HiddenFilter: true;
     createdBy   @(title: '{i18n>createdBy}')   @UI.HiddenFilter: false;
     createdAt   @(title: '{i18n>createdOn}')   @UI.HiddenFilter: false;
     modifiedBy  @(title: '{i18n>modifiedBy}')  @UI.HiddenFilter: false;
@@ -25,7 +28,7 @@ annotate service.RECIPE_HEAD @(Common : {
 annotate service.RECIPE_HEAD with @(UI: {
     SelectionFields    : [
         RECIPE,
-        MATNR_MATNR
+        MATN_MATNR
 
 
     ],
@@ -38,9 +41,16 @@ annotate service.RECIPE_HEAD with @(UI: {
             ![@HTML5.CssDefaults]  : {width : 'auto'}
 
         },
+        
         {
             $Type            : 'UI.DataField',
-            Value            : MATNR_MATNR,
+            Value            : MATN_MATNR,
+            ![@UI.Importance]: #High,
+            ![@HTML5.CssDefaults]  : {width : 'auto'},
+        },
+        {
+            $Type            : 'UI.DataField',
+            Value            : MATN.MAKTX,
             ![@UI.Importance]: #High,
             ![@HTML5.CssDefaults]  : {width : 'auto'},
         },
@@ -107,10 +117,33 @@ annotate service.RECIPE_HEAD  with {
                 ValueListWithFixedValues,
                 ValueList : {
                     SearchSupported : true,
-                    CollectionPath  : 'LISTMATERIALS',
+                    CollectionPath  : 'LISTFINISHED',
                     Parameters      : [{
                         $Type             : 'Common.ValueListParameterInOut',
                         LocalDataProperty : MATNR_MATNR,
+                        ValueListProperty : 'MATNR'
+                    },
+                    {
+                        $Type   : 'Common.ValueListParameterDisplayOnly',
+                        
+                        ValueListProperty : 'MAKTX'
+                        
+                    }
+                    ]
+                }
+                 
+            });
+};
+
+annotate service.RECIPE_HEAD  with {
+    MATN @(Common : {
+                ValueListWithFixedValues,
+                ValueList : {
+                    SearchSupported : true,
+                    CollectionPath  : 'LISTFILTER',
+                    Parameters      : [{
+                        $Type             : 'Common.ValueListParameterInOut',
+                        LocalDataProperty : MATN_MATNR,
                         ValueListProperty : 'MATNR'
                     },
                     {
