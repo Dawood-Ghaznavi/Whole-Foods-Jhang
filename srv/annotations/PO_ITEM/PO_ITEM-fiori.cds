@@ -3,7 +3,8 @@ using wholefoodService as service from '../../catalog-service';
 
 annotate service.PO_ITEM  with {
     EBELP       @(title: '{i18n>itemnumber}');
-    EBELN       @(title: '{i18n>purchaseorderno}');
+     ID       @(title: '{i18n>ID}') @UI.Hidden;
+    EBELN       @(title: '{i18n>purchaseorderno}') @UI.Hidden;
     WERKS     @(title: '{i18n>plantID}');
     MATNR     @(title: '{i18n>materialID}');
     MENGE     @(title: '{i18n>quantity}');

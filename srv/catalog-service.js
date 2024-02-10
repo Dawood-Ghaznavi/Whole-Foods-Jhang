@@ -360,9 +360,30 @@ else{
  
 this.before ('CREATE','RECIPE_HEAD', async (req)=>{
 
-    if(req.data.MATNR_MATNR == null){
-        req.error({code :   409,message :   `Material ID for Recipe cannot be Null`, target :  'MATNR_MATNR'})
-                                    }                                
+  for(let x =0 ; x < req.data.RECIPE_ITM.length ; x++){                                 
+    if(req.data.RECIPE_ITM[x].MATNR_MATNR == null){
+        req.error({code :   409,message :   `Material ID for Item No. ${req.data.RECIPE_ITM[x].RECIPE_ITM} cannot be Null`, target :  'RECIPE_ITM.MATNR_MATNR'})     
+    }
+    if(req.data.RECIPE_ITM[x].RAWQTY == null)  {
+        req.error({code :   409,message :   `Quantity for Item No. ${req.data.RECIPE_ITM[x].RECIPE_ITM}  cannot be Null`, target :  'RECIPE_ITM.RAWQTY'})
+    } 
+    else{
+        
+        if(req.data.RECIPE_ITM[x].RAWQTY < 0 || req.data.RECIPE_ITM[x].RAWQTY == 0){
+            req.error({ code : 409, message : `Quantity for Item No. ${req.data.RECIPE_ITM[x].RECIPE_ITM} should be greater than 0`, target : `RECIPE_ITM.RAWQTY`})  
+            }
+        else if(req.data.RECIPE_ITM[x].RAWQTY > 1){
+            req.error({ code : 409, message : `Quantity for Item No. ${req.data.RECIPE_ITM[x].RECIPE_ITM} should be less than 1`, target : `RECIPE_ITM.RAWQTY`})
+
+        }
+
+    }                           
+}
+if(req.data.MATNR_MATNR == null){
+    req.error({code :   409,message :   `Material ID for Recipe cannot be Null`, target :  'MATNR_MATNR'})
+                                }
+if(req.errors){req.reject()}                                
+
 
 
     let temp 

@@ -1,7 +1,8 @@
 using wholefoodService as service from '../../catalog-service';
 
 annotate service.RECIPE_ITEM with {
-    RECIPE      @(title: '{i18n>recipeno}');
+    RECIPE      @(title: '{i18n>recipeno}')@UI.Hidden;
+     ID      @(title: '{i18n>recipeno}') @UI.Hidden;
     RAWQTY      @(title: '{i18n>quantity}');
     RECIPE_ITM  @(title: '{i18n>item}');
     MATNR       @(title: '{i18n>materialID}');

@@ -2,7 +2,8 @@ using wholefoodService as service from '../../catalog-service';
 using from '../PO_ITEM/PO_ITEM-fiori';
 
 annotate service.PO_HEAD with {
-    EBELN       @(title: '{i18n>purchaseorderno}');     
+    EBELN       @(title: '{i18n>purchaseorderno}');   
+     ID       @(title: '{i18n>ID}')@UI.Hidden;  
     EBELP       @(title: '{i18n>itemnumber}');
     PARTNER     @(title: '{i18n>businesspartnerid}');
     createdBy   @(title: '{i18n>createdBy}')   @UI.HiddenFilter: false;
