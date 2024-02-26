@@ -1,0 +1,11 @@
+<mvc:View controllerName="materials2.controller.App"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"  
+    displayBlock="true">
+    <Shell id="sh">
+<App id="app">
+    
+    </App>
+    </Shell>
+</mvc:View>

@@ -18,3 +18,7 @@ using from './inventory/annotations';
 using from './purchaseorder/annotations';
 
 using from './recipe/annotations';
+
+using from './materials2/annotations';
+
+using from './purchaseorders2/annotations';

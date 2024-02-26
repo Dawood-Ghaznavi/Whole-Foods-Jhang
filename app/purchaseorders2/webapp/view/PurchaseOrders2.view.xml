@@ -1,0 +1,59 @@
+<mvc:View controllerName="purchaseorders2.controller.PurchaseOrders2"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+    <content>
+    <Table
+    
+      class="sapUiResponsiveMargin"
+      width="auto"
+      items="{path : '/PO_HEAD', sorter : {
+            path : 'EBELN' ,
+             group : false
+         }	, parameters: { $expand : { EBELP : {
+							$select : ['EBELP', 'MATNR_MATNR',
+								'WERKS_WERKS','MENGE']
+						}},
+						$select : ['ID', 'PARTNER_PARTNER', 'EBELN']  }}" 
+      id="TableP">
+      <headerToolbar>
+         <Toolbar id="tbar">
+        
+            <Title text="{i18n>purchaseorders}" id="title"/>
+            <ToolbarSpacer id="tlbspabe"/>
+             <Button
+                        text="{i18n>create}"
+                        press=".onCreate" id = "BT"
+                        class="btn1"/>
+                
+            <SearchField 
+               width="30%" 
+               search=".onFilterOrders" id="sfield"/>
+         </Toolbar>
+      </headerToolbar>
+      <columns>
+      <Column id="c2">
+				<Text text="{i18n>Purcahsedocumentno} " id="t2" />
+			</Column>
+			<Column id="c4"
+				minScreenWidth="Tablet"
+				demandPopin="false">
+				<Text text="{i18n>businesspartner}" id="t4"/>
+			</Column>
+			
+		</columns>
+      <items>
+         <ColumnListItem id="clmlst"
+                type="Navigation"
+                press=".onObject"   >
+                 <cells>
+				<ObjectIdentifier title="{EBELN}" id="objIden2" />
+            <ObjectIdentifier title="{PARTNER_PARTNER}" text="{PARTNER/NAME}" id="objIden1" />
+				
+				</cells>
+                </ColumnListItem>
+      </items>
+   </Table>
+        </content>
+    </Page>
+</mvc:View>

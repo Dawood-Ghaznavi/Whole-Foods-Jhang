@@ -97,7 +97,6 @@ context Wholefoods {
 
 
     }
-
     entity LISTROLE : managed {
 
         key BPARTNER : Association to BPGENERAL; //BP Role ID

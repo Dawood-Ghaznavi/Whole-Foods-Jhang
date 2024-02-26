@@ -16,7 +16,7 @@
     "devDependencies": {
         "@cap-js/sqlite": "^1",
         "@sap/cds-dk": "^7",
-        "@sap/ux-specification": "^1.120.3",
+        "@sap/ux-specification": "^1.120.4",
         "rimraf": "^3.0.2"
     },
     "scripts": {
@@ -34,7 +34,9 @@
         "watch-businesspartnerroles": "cds watch --open businesspartnerroles/webapp/index.html?sap-ui-xx-viewCache=false",
         "watch-inventory": "cds watch --open inventory/webapp/index.html?sap-ui-xx-viewCache=false",
         "watch-purchaseorder": "cds watch --open purchaseorder/webapp/index.html?sap-ui-xx-viewCache=false",
-        "watch-recipe": "cds watch --open recipe/webapp/index.html?sap-ui-xx-viewCache=false"
+        "watch-recipe": "cds watch --open recipe/webapp/index.html?sap-ui-xx-viewCache=false",
+        "watch-materials2": "cds watch --open materials2/webapp/index.html?sap-ui-xx-viewCache=false",
+        "watch-purchaseorders2": "cds watch --open purchaseorders2/webapp/index.html?sap-ui-xx-viewCache=false"
     },
     "cds": {
         "requires": {

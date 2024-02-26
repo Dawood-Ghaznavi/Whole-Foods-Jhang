@@ -1,0 +1,77 @@
+<mvc:View
+controllerName="purchaseorders2.controller.Detail"
+xmlns:f="sap.ui.layout.form"
+   xmlns:core="sap.ui.core"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+	<Page
+		title="{i18n>detailPageTitle} " id="pg1" showNavButton="true"
+		navButtonPress=".onNavBack" >
+		<Panel headerText="Purchase Order : {EBELN}" class="sapUiResponsiveMargin" width="auto" id="p1" >
+		<Button
+                        text="{i18n>edit}"
+                        press=".onEdit" id = "BT"
+                        class="btn1"/>
+		<f:SimpleForm  editable="true" layout="ColumnLayout" id="f1">
+			<Label text="Purchase Document No." id="l1"/>
+			<Input value="{EBELN}" valueLiveUpdate="true" width="200px" enabled="{/enabled} " editable="false" id="I1"/>
+			<Label text="Business Partner" id="l2"/>
+			<Input value="{PARTNER_PARTNER}" valueLiveUpdate="true" width="200px" enabled="{/enabled}" editable="false" id="I2"/>
+		</f:SimpleForm>
+	</Panel>
+	 <Table
+    
+      class="sapUiResponsiveMargin"
+      width="auto"
+      items="{path : 'EBELP', sorter : {
+            path : 'EBELP' ,
+             group : false
+         }, parameters: {$$ownRequest: true} }" 
+      id="TableP">
+      <headerToolbar>
+         <Toolbar id="tbar">
+        
+            <Title text="{i18n>items}" id="title"/>
+            <ToolbarSpacer id="tlbspabe"/>
+             <Button
+                        text="{i18n>create}"
+                        press=".onCreate" id = "BT2"
+                        class="btn1"/>
+                
+            <SearchField 
+               width="30%" 
+               search=".onFilterOrders" id="sfield"/>
+         </Toolbar>
+      </headerToolbar>
+      <columns>
+      <Column id="c1">
+				<Text text="{i18n>itemno} " id="t1" />
+			</Column>
+			<Column id="c2"
+				minScreenWidth="Tablet"
+				demandPopin="false">
+				<Text text="{i18n>materialID}" id="t2"/>
+			</Column>
+			 <Column id="c3">
+				<Text text="{i18n>plantID} " id="t3" />
+			</Column>
+			<Column hAlign="Right" id="Column4"  >
+			
+				<Text text="{i18n>quantity} " id="t4" />
+			</Column>
+		</columns>
+      <items>
+         <ColumnListItem id="clmlst" >
+                 <cells>
+                 <ObjectIdentifier title="{EBELP}" id="ob1" />
+					
+				  <ObjectIdentifier title="{MATNR_MATNR}" text="{MATNR/MAKTX}" id="ob2" />
+				 <ObjectIdentifier title="{WERKS_WERKS}" text="{WERKS/NAME1}" id="ob3" />
+				<ObjectNumber number="{path : 'MENGE', type : 'sap.ui.model.type.FLOAT', 
+				formatOptions : {minFractionDigits : 2} }" unit="{MATNR/UOM}" id="ob4"/>
+				</cells>
+                </ColumnListItem>
+      </items>
+   </Table>
+	</Page>
+</mvc:View>

@@ -1,0 +1,11 @@
+/* Enter your custom styles here */
+#txt {
+    display: inline-block;
+    font-weight: bolder;
+    padding-bottom :  5 rem;
+    font : italic;
+ }
+
+ html[dir="ltr"] .ap .btn {
+    margin-right: 0.125 rem;
+ } 

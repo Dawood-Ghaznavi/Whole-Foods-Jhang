@@ -39,7 +39,7 @@ module.exports = function (){
         if(req.errors)  {
             req.reject()
                         }
-        
+        /*
         let temp 
         let HeadID = '0'
         let numEBELN =[]
@@ -64,7 +64,7 @@ module.exports = function (){
             req.data.EBELN = temp
 
         }
-        req.notify(`Purchase Order ${temp} Created`)
+        */
         let lenItem = req.data.EBELP.length
         const arrItem = []
         let mID , plID, mng , IT_ID, PO_ID

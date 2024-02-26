@@ -1,0 +1,87 @@
+<mvc:View
+controllerName="materials2.controller.Invoicedata"
+   xmlns="sap.m"
+   xmlns:mvc="sap.ui.core.mvc">
+   <Table
+    
+      class="sapUiResponsiveMargin"
+      width="auto"
+      items="{path : 'invoice>/Invoices', sorter : {
+            path : 'ProductName' ,
+             group : false
+         }  }" 
+      id="lst">
+      <headerToolbar>
+         <Toolbar id="tbar">
+            <Title text="{i18n>invoiceListTitle}" id="title"/>
+            <ToolbarSpacer id="tlbspabe"/>
+            <SearchField 
+               width="50%" 
+               search=".onFilterInvoices" id="sfield"/>
+         </Toolbar>
+      </headerToolbar>
+      <columns>
+      <Column id="c2">
+				<Text text="{i18n>columnName} " id="t2" />
+			</Column>
+			<Column id="c1"
+				hAlign="End"
+				minScreenWidth="Small"
+				demandPopin="true"
+				width="5em">
+				<Text text="{i18n>columnQuantity}" id="t1"/>
+			</Column>
+			
+			<Column id="c3"
+				minScreenWidth="Small"
+				demandPopin="true">
+				<Text text="{i18n>columnStatus}" id="t3"/>
+			</Column>
+			<Column id="c4"
+				minScreenWidth="Tablet"
+				demandPopin="false">
+				<Text text="{i18n>columnSupplier}" id="t4"/>
+			</Column>
+			<Column hAlign="End" id="c5">
+				<Text text="{i18n>columnPrice}" id="t5"/>
+			</Column>
+		</columns>
+      <items>
+         <ColumnListItem id="clmlst"
+                  type="Navigation"
+                press=".onPress">
+                 <cells>
+                 <ObjectIdentifier title="{invoice>ProductName}" id="objIden" />
+					<ObjectNumber id="objN"
+						number="{invoice>Quantity}"
+						emphasized="false"/>
+					
+					<Text id="T"
+						text="{
+								parts: [
+									'invoice>Status',
+									'i18n>invoiceStatusA',
+									'i18n>invoiceStatusB',
+									'i18n>invoiceStatusC'
+								],
+								formatter: '.formatter.statusText'
+							}"/>
+					<Text text="{invoice>ShipperName}" id="T2"/>
+					<ObjectNumber id="objn2"
+						number="{
+								parts: [
+									'invoice>ExtendedPrice',
+									'view>/currency'
+								],
+								type: 'sap.ui.model.type.Currency',
+								formatOptions: {
+									showMeasure: false
+								}
+							}"
+						unit="{view>/currency}"
+						state="{= ${invoice>ExtendedPrice} > 50 ? 'Error' : 'Success' }"/>
+				</cells>
+                </ColumnListItem>
+      </items>
+   </Table>
+</mvc:View>

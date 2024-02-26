@@ -1,0 +1,23 @@
+<mvc:View
+controllerName="materials2.controller.Detail"
+xmlns:f="sap.ui.layout.form"
+   xmlns:core="sap.ui.core"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+	<Page
+		title="{i18n>detailPageTitle} " id="pg1" showNavButton="true"
+		navButtonPress=".onNavBack">
+		<Panel headerText="{i18n>detailPanelTitle}" class="sapUiResponsiveMargin" width="auto" id="p1">
+		<f:SimpleForm  editable="true" layout="ColumnLayout" id="f1">
+			<Label text="ID" id="l1"/>
+			<Input value="{MATNR}" valueLiveUpdate="true" width="200px" enabled="{/enabled} " editable="false" id="I1"/>
+			<Label text="Name" id="l2"/>
+			<Input value="{MAKTX}" valueLiveUpdate="true" width="200px" enabled="{/enabled}" editable="false" id="I2"/>
+		</f:SimpleForm>
+		<Button
+                        text="{i18n>save}"
+                        press=".onSave" id = "BT"
+                        class="btn1"/>
+	</Panel>
+	</Page>
+</mvc:View>

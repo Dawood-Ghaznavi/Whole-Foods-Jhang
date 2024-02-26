@@ -1,0 +1,56 @@
+<mvc:View
+controllerName="materials2.controller.mat"
+   xmlns="sap.m"
+   xmlns:mvc="sap.ui.core.mvc">
+   <Table
+    
+      class="sapUiResponsiveMargin"
+      width="auto"
+      items="{path : '/Materials', sorter : {
+            path : 'MATNR' ,
+             group : false
+         }  }" 
+      id="TableM">
+      <headerToolbar>
+         <Toolbar id="tbar">
+        
+            <Title text="{i18n>materiallisttitle}" id="title"/>
+            <ToolbarSpacer id="tlbspabe"/>
+             <Button
+                        text="{i18n>create}"
+                        press=".onCreate" id = "BT"
+                        class="btn1"/>
+                         <Button
+                        text="{i18n>add}"
+                        press=".onAdd" id = "BT1"
+                        class="btn1"/>
+            <SearchField 
+               width="50%" 
+               search=".onFilterMaterials" id="sfield"/>
+         </Toolbar>
+      </headerToolbar>
+      <columns>
+      <Column id="c2">
+				<Text text="{i18n>MATNR} " id="t2" />
+			</Column>
+			<Column id="c4"
+				minScreenWidth="Tablet"
+				demandPopin="false">
+				<Text text="{i18n>name}" id="t4"/>
+			</Column>
+			
+		</columns>
+      <items>
+         <ColumnListItem id="clmlst"
+                  type="Navigation"
+                press=".onPress2">
+                 <cells>
+                 <ObjectIdentifier title="{MATNR}" id="objIden" />
+					
+				 <Text text="{MAKTX}" id="T2"/>
+				
+				</cells>
+                </ColumnListItem>
+      </items>
+   </Table>
+</mvc:View>

@@ -1,0 +1,13 @@
+<mvc:View controllerName="materials2.controller.Materials2"
+    xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
+    xmlns="sap.m">
+  
+    
+         <Page title="{i18n>homePageTitle}" id = "PG">
+            <content>
+               <mvc:XMLView viewName="materials2.view.mat" id="INVview"/>
+            </content>
+         </Page>
+      
+    
+</mvc:View>

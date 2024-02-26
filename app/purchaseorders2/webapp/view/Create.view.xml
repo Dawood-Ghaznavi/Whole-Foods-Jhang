@@ -1,0 +1,72 @@
+<mvc:View
+controllerName="purchaseorders2.controller.PurchaseOrders2"
+xmlns:f="sap.ui.layout.form"
+   xmlns:core="sap.ui.core"
+	xmlns="sap.m"
+	xmlns:mvc="sap.ui.core.mvc">
+	<Page
+		title="{i18n>detailPageTitle} " id="pg1" >
+		<Panel headerText="{i18n>createPanelTitle}" class="sapUiResponsiveMargin" width="auto" id="p1" >
+		<f:SimpleForm  editable="true" layout="ColumnLayout" id="f1">
+        <f:toolbar>
+            <Toolbar id="tb1">
+              <content>
+                <ToolbarSpacer id="tbs"/>
+                <Button icon="sap-icon://create" text="Save" id = "bt-create"  press=".onSave"/>
+              </content>
+            </Toolbar>
+          </f:toolbar>
+          <f:content>
+			<Label text="Purchase Document No." id="l1"/>
+			<Input value="{orders>/EBELN}" valueLiveUpdate="true" width="200px" enabled="{/enabled} " editable="true" id="I1"/>
+			<Label text="Business Partner" id="l2"/>
+			 <Select items="{path: '/LISTROLE'}" id="sl" >
+			<core:Item key="{BPARTNER_PARTNER}" text="{NAME}" id="it" />
+			</Select>
+            </f:content>
+		</f:SimpleForm>
+	</Panel>
+	 <Table
+    
+      class="sapUiResponsiveMargin"
+      width="auto" 
+      id="TableM">
+      <headerToolbar>
+         <Toolbar id="tbar">
+        
+            <Title text="{i18n>materiallisttitle}" id="title"/>
+            <ToolbarSpacer id="tlbspabe"/>
+                         <Button
+                        text="{i18n>add}"
+                        press=".onAdd" id = "BT1"
+                        class="btn1"/>
+            <SearchField 
+               width="50%" 
+               search=".onFilterMaterials" id="sfield"/>
+         </Toolbar>
+      </headerToolbar>
+      <columns>
+      <Column id="c2" minScreenWidth="Tablet">
+      
+				<Text text="{i18n>Itemno} " id="t2" />
+			</Column>
+			<Column id="c4"
+				minScreenWidth="Tablet"
+				demandPopin="false">
+				<Text text="{i18n>materialID}" id="t4"/>
+			</Column>
+			
+		</columns>
+      <items>
+         <ColumnListItem id="clmlst">
+                 <cells>
+                <Input value="{orders>/testA}" valueLiveUpdate="true" width="400px" enabled="{/enabled} " editable="true" id="I10"/>
+					
+<Input value="{orders>/testB}" valueLiveUpdate="true" width="400px" enabled="{/enabled} " editable="true" id="I11"/>
+				
+				</cells>
+                </ColumnListItem>
+      </items>
+   </Table>
+	</Page>
+</mvc:View>

@@ -104,6 +104,14 @@ modules:
       - recipe.zip
       name: recipe
       target-path: resources/
+    - artifacts:
+      - materials2.zip
+      name: materials2
+      target-path: resources/
+    - artifacts:
+      - purchaseorders2.zip
+      name: purchaseorders2
+      target-path: resources/
 - name: plants
   type: html5
   path: app/plants
@@ -197,6 +205,26 @@ modules:
 - name: recipe
   type: html5
   path: app/recipe
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: materials2
+  type: html5
+  path: app/materials2
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: purchaseorders2
+  type: html5
+  path: app/purchaseorders2
   build-parameters:
     build-result: dist
     builder: custom
