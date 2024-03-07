@@ -1,10 +1,10 @@
 <mvc:View controllerName="purchaseorders2.controller.PurchaseOrders2"
     xmlns:mvc="sap.ui.core.mvc" displayBlock="true"
     xmlns="sap.m">
-    <Page id="page" title="{i18n>title}">
+    <Page id="page" title="{i18n>title}" >
     <content>
     <Table
-    
+    mode="MultiSelect"
       class="sapUiResponsiveMargin"
       width="auto"
       items="{path : '/PO_HEAD', sorter : {
@@ -14,7 +14,7 @@
 							$select : ['EBELP', 'MATNR_MATNR',
 								'WERKS_WERKS','MENGE']
 						}},
-						$select : ['ID', 'PARTNER_PARTNER', 'EBELN']  }}" 
+						$select : ['ID', 'PARTNER_PARTNER', 'EBELN' , 'EBELP'] ,	$count : true,$$updateGroupId : 'POUpdateGroup'  }}" 
       id="TableP">
       <headerToolbar>
          <Toolbar id="tbar">
@@ -23,11 +23,20 @@
             <ToolbarSpacer id="tlbspabe"/>
              <Button
                         text="{i18n>create}"
+                        tooltip = "Create Purchase Order"
                         press=".onCreate" id = "BT"
                         class="btn1"/>
-                
+                         <Button
+                        text="{i18n>delete}"
+                        tooltip = "Delete Purchase Order"
+                        press=".onDelete" id = "BT1"
+                        class="btn1"/>
+                         <Button
+                         icon="sap-icon://refresh"
+                        press=".Rfresh" id = "BT2"
+                        class="btn1"/>
             <SearchField 
-               width="30%" 
+               width="20%" 
                search=".onFilterOrders" id="sfield"/>
          </Toolbar>
       </headerToolbar>

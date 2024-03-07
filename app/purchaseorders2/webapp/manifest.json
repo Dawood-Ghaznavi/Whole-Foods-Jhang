@@ -112,7 +112,7 @@
       "routes": [
         {
           "name": "RoutePurchaseOrders2",
-          "pattern": ":?query:",
+          "pattern": "",
           "target": [
             "TargetPurchaseOrders2"
           ]

@@ -69,7 +69,7 @@ context Wholefoods {
     entity MARD : managed {
         key MATNR : Association to Materials; //Material ID
         key WERKS : Association to Plants; //Plant ID
-            LABST : Integer; //Unrestricted Stock
+            LABST : Double; //Unrestricted Stock
             ITEM : String (40);
             PURCHASE : String(40)
             
@@ -82,7 +82,7 @@ context Wholefoods {
             EBELN : Association to PO_HEAD; //Purchasing Document Number
             WERKS : Association to Plants; //Plant ID
             MATNR : Association to Materials; //Material ID
-            MENGE : Integer; //PO Quantity
+            MENGE : Double; //PO Quantity
           
        
            

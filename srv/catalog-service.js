@@ -6,6 +6,7 @@ module.exports = function (){
     const {MARD,RECIPE_HEAD,RECIPE_ITEM,Materials} = this.entities()
 
        this.before ('CREATE','PO_HEAD', async (req)=>{
+        console.log("*****  Catalog JS Create")
         if(req.data.PARTNER_PARTNER == null){
                 req.error({code :   409,message :   `Business Partner cannot be Null`, target :  'PARTNER_PARTNER'})
                                             }
@@ -189,7 +190,7 @@ module.exports = function (){
     }) 
    */  
     
-   
+   /*
     this.before ('UPDATE','PO_HEAD', async (req)=>{
 
         for(let x = 0 ; x < req.data.EBELP.length ; x++){
@@ -310,9 +311,10 @@ else{
 
 
 
-})
+}) */
     
     this.before ('DELETE','PO_HEAD', async (req)=>{
+        console.log("*****  Catalog JS Delete ")
       let Po_ID = req.data.ID
       let ItemItm = await SELECT.from("wholefoodService.PO_ITEM").columns('MATNR_MATNR','WERKS_WERKS','MENGE').where({EBELN_ID: Po_ID});
       

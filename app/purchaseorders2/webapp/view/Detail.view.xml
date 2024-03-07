@@ -7,26 +7,27 @@ xmlns:f="sap.ui.layout.form"
 	<Page
 		title="{i18n>detailPageTitle} " id="pg1" showNavButton="true"
 		navButtonPress=".onNavBack" >
-		<Panel headerText="Purchase Order : {EBELN}" class="sapUiResponsiveMargin" width="auto" id="p1" >
-		<Button
+		<Button         
                         text="{i18n>edit}"
                         press=".onEdit" id = "BT"
                         class="btn1"/>
+		<Panel headerText="Purchase Order : {EBELN}" class="sapUiResponsiveMargin" width="auto" id="p1" >
+		
 		<f:SimpleForm  editable="true" layout="ColumnLayout" id="f1">
 			<Label text="Purchase Document No." id="l1"/>
-			<Input value="{EBELN}" valueLiveUpdate="true" width="200px" enabled="{/enabled} " editable="false" id="I1"/>
+			<Text text="{EBELN}" width="200px"   id="I1" />
 			<Label text="Business Partner" id="l2"/>
-			<Input value="{PARTNER_PARTNER}" valueLiveUpdate="true" width="200px" enabled="{/enabled}" editable="false" id="I2"/>
+			<Text text="{PARTNER_PARTNER}" width="200px"  id="I2"/>
 		</f:SimpleForm>
 	</Panel>
 	 <Table
-    
+    mode="MultiSelect"
       class="sapUiResponsiveMargin"
       width="auto"
       items="{path : 'EBELP', sorter : {
             path : 'EBELP' ,
              group : false
-         }, parameters: {$$ownRequest: true} }" 
+         }, parameters: {$$ownRequest: true ,$$updateGroupId : 'POUpdateGroup'  } }" 
       id="TableP">
       <headerToolbar>
          <Toolbar id="tbar">
@@ -63,15 +64,18 @@ xmlns:f="sap.ui.layout.form"
       <items>
          <ColumnListItem id="clmlst" >
                  <cells>
-                 <ObjectIdentifier title="{EBELP}" id="ob1" />
-					
+                  <ObjectIdentifier title="{EBELP}" id="ob1" /> 
 				  <ObjectIdentifier title="{MATNR_MATNR}" text="{MATNR/MAKTX}" id="ob2" />
 				 <ObjectIdentifier title="{WERKS_WERKS}" text="{WERKS/NAME1}" id="ob3" />
-				<ObjectNumber number="{path : 'MENGE', type : 'sap.ui.model.type.FLOAT', 
-				formatOptions : {minFractionDigits : 2} }" unit="{MATNR/UOM}" id="ob4"/>
+				<ObjectNumber number="{path : 'MENGE', type : 'sap.ui.model.type.Integer', 
+				formatOptions : {minIntegerDigits: 1 ,minFractionDigits : 2} }" unit="{MATNR/UOM}" id="ob4"/>
 				</cells>
                 </ColumnListItem>
       </items>
    </Table>
+   <footer><Toolbar id="TB2"><ToolbarSpacer id="tbS"/> <Button         
+                        text="{i18n>save}"
+                        press=".onSave" id = "BT3"
+                        class="btn1"/></Toolbar></footer>
 	</Page>
 </mvc:View>
