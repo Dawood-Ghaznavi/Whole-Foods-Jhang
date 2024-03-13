@@ -16,6 +16,7 @@ sap.ui.define([
             onInit: function () {
                // var oModel = new JSONModel();
                // this.getView().setModel(oModel, "orders");
+        
             },
             onFilterOrders(oEvent) {
 			
@@ -85,7 +86,7 @@ sap.ui.define([
                                   //  console.log("POGroup")
                                   // console.log(oModel.getUpdateGroupId()) //UpdateGroup
                                 
-                                 temp.create(info)
+                                 temp.create(info,null,true)
 
                                  oModel.submitBatch("POUpdateGroup")
                                  MessageToast.show("Order Created");
@@ -103,7 +104,7 @@ sap.ui.define([
                                   temp = null
                                   const oRouter = this.getOwnerComponent().getRouter();
                                 oRouter.navTo("RoutePurchaseOrders2", {}, true);
-                              
+                    
 
               
                         },
@@ -113,9 +114,25 @@ sap.ui.define([
              
                            
                            let len = this.byId("TableM").getItems().length
-                       let EBLP = String(len+1).padStart(4,'0')
+                           let EBLP
+
+                           if(len === 0 )
+                           {
+                              EBLP = String("10").padStart(4,'0')
+                           }
+                           else{
+                            let tbl = this.byId("TableM").getItems()
+                            let txt = tbl[tbl.length-1].getAggregation("cells")[0].getText()
+                            EBLP = parseInt(txt) + 10
+                            EBLP = String(EBLP).padStart(4,'0')
+
+                           }
+                           let textID = parseInt(EBLP)
+                           textID = `T${textID}`
+                           let selID = `S${textID.substr(1)}`
+                    
                             var oItem = new sap.m.ColumnListItem({
-                               cells: [new sap.m.Text({text : EBLP}), new sap.m.Select(`S${len}`,{ items: {
+                               cells: [new sap.m.Text({text : EBLP}), new sap.m.Select(selID,{ items: {
                                 path: "/LISTMATERIALS",         
                                 template: new sap.ui.core.ListItem({
                                     key: '{MATNR}', 
@@ -124,7 +141,6 @@ sap.ui.define([
                                 })},width: "400px",change :(oEvent) => {
                                    let x = oEvent.getParameters().selectedItem.getBindingContext();
                                    let tbldata = this.byId("TableM").getItems()
-                                   console.log(oEvent.getParameters().id.substr(1))
                                    let NumId = oEvent.getParameters().id.substr(1)
                                   // let id =  tbldata[tbldata.length-1].getAggregation("cells")[4].getId()
                                   let id = 'T' +  NumId
@@ -142,7 +158,7 @@ sap.ui.define([
                                     template: new sap.ui.core.ListItem({
                                         key: '{WERKS}', // model name with property name
                                         text: '{NAME1}' // model name with property name
-                                    })}, width: "400px"}),new sap.m.Input(),new sap.m.Text(`T${len}`,{
+                                    })}, width: "400px"}),new sap.m.Input(),new sap.m.Text(textID,{
                                         text: "{UOM}"
                                     })/*new sap.m.Input({
                                    showValueHelp: true 
@@ -153,10 +169,8 @@ sap.ui.define([
                            var oTable = this.byId("TableM");
                            oTable.addItem(oItem);
 
-                         
-
-                           
-                         //  let tbldata = oTable.getItems()
+                     
+                          // let tbldata = oTable.getItems()
                          // let id =  tbldata[tbldata.length-1].getAggregation("cells")[4].getId()
                           //sap.ui.getCore().byId(id).setBindingContext(x)
 
@@ -166,8 +180,9 @@ sap.ui.define([
                         oRouter.navTo("RoutePurchaseOrders2", {}, true);
                     },
                     Rfresh : function() {
-                      let model = this.getView().byId("TableP").getBinding("items")
-                     model.refresh()
+                      //let model = this.getView().byId("TableP").getBinding("items")
+                     //model.refresh()
+                     this.getView().getModel().refresh()
                     MessageToast.show("Table Refreshed");
 
                         /*
@@ -185,12 +200,41 @@ sap.ui.define([
                     },
                     onDelete : function(){
                         let oTable = this.getView().byId("TableP"),
-                       Porder = oTable.getSelectedItem().getBindingContext()
+                       Porder = oTable.getSelectedItems()
+       
+                       if(Porder.length === 0){
+                        MessageToast.show("No Order Selected");
+                        return
+                       }
+                       let order
+                       for(let x = 0 ; x < Porder.length ; x++){
+                       order = Porder[x].getBindingContext()
+                       order.delete().then(function(){ MessageToast.show("Order Deleted");})
                        this.getView().getModel().submitBatch("POUpdateGroup")
-                       Porder.delete().then(function(){ MessageToast.show("Order Deleted");})
+                       }
+                       
 
 
+                    },
+                    onDel () {
 
+                        let oTable = this.getView().byId("TableM")
+                        let Porder = oTable.getSelectedItems()
+
+                        if(Porder.length === 0){
+                         MessageToast.show("No Item Selected");
+                         return
+                        }
+                    
+                    
+
+                        let order
+                        for(let x = 0 ; x < Porder.length ; x++){
+                       order = Porder[x]
+                       order.destroy()
+                      // oTable.removeItem(order)
+                       MessageToast.show("Item Deleted");
+                       }
 
                     }
 

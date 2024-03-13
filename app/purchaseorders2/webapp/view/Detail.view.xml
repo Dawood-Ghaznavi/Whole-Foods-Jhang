@@ -7,17 +7,30 @@ xmlns:f="sap.ui.layout.form"
 	<Page
 		title="{i18n>detailPageTitle} " id="pg1" showNavButton="true"
 		navButtonPress=".onNavBack" >
-		<Button         
+
+<FlexBox id="FLX" justifyContent="End" class="sapUiResponsiveMargin">
+                        <Button         
                         text="{i18n>edit}"
-                        press=".onEdit" id = "BT"
-                        class="btn1"/>
+                        press=".onEdit" id = "BT" enabled="{= %{IsActiveEntity} }"
+                         />
+                        
+                        </FlexBox>
+ 
 		<Panel headerText="Purchase Order : {EBELN}" class="sapUiResponsiveMargin" width="auto" id="p1" >
 		
 		<f:SimpleForm  editable="true" layout="ColumnLayout" id="f1">
 			<Label text="Purchase Document No." id="l1"/>
 			<Text text="{EBELN}" width="200px"   id="I1" />
 			<Label text="Business Partner" id="l2"/>
-			<Text text="{PARTNER_PARTNER}" width="200px"  id="I2"/>
+        
+
+      <Select selectedKey="{PARTNER_PARTNER}" items="{path: '/LISTROLE'}" id="sl" width="240px" visible="{= !%{IsActiveEntity} }">
+			<core:Item key="{BPARTNER_PARTNER}" text="{NAME}" id="it" />
+			</Select>
+   
+			
+          <Text text = "{PARTNER_PARTNER}"  visible="{= %{IsActiveEntity} }" id = "text_partner"/>
+         
 		</f:SimpleForm>
 	</Panel>
 	 <Table
@@ -27,7 +40,7 @@ xmlns:f="sap.ui.layout.form"
       items="{path : 'EBELP', sorter : {
             path : 'EBELP' ,
              group : false
-         }, parameters: {$$ownRequest: true ,$$updateGroupId : 'POUpdateGroup'  } }" 
+         }, parameters: {	$$ownRequest : true} }" 
       id="TableP">
       <headerToolbar>
          <Toolbar id="tbar">
@@ -64,7 +77,8 @@ xmlns:f="sap.ui.layout.form"
       <items>
          <ColumnListItem id="clmlst" >
                  <cells>
-                  <ObjectIdentifier title="{EBELP}" id="ob1" /> 
+            
+                  <Text text="{EBELP}" id="ob1" /> 
 				  <ObjectIdentifier title="{MATNR_MATNR}" text="{MATNR/MAKTX}" id="ob2" />
 				 <ObjectIdentifier title="{WERKS_WERKS}" text="{WERKS/NAME1}" id="ob3" />
 				<ObjectNumber number="{path : 'MENGE', type : 'sap.ui.model.type.Integer', 
@@ -73,9 +87,13 @@ xmlns:f="sap.ui.layout.form"
                 </ColumnListItem>
       </items>
    </Table>
-   <footer><Toolbar id="TB2"><ToolbarSpacer id="tbS"/> <Button         
+   <footer ><Toolbar id="TB2" visible="{= !%{IsActiveEntity} }"><ToolbarSpacer id="tbS"/> <Button         
                         text="{i18n>save}"
-                        press=".onSave" id = "BT3"
+                        press=".onSave" id = "BT3" type="Emphasized" 
+                        class="btn1"/>
+                        <Button         
+                        text="{i18n>cancel}"
+                        press=".onCancel" id = "BT5" type="Emphasized"
                         class="btn1"/></Toolbar></footer>
 	</Page>
 </mvc:View>

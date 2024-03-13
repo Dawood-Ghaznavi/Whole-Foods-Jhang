@@ -8,26 +8,19 @@ xmlns:f="sap.ui.layout.form"
 		title="{i18n>detailPageTitle} " id="pg1" navButtonPress=".onNavBack" showNavButton="true">
 		<Panel headerText="{i18n>createPanelTitle}" class="sapUiResponsiveMargin" width="auto" id="p1" >
 		<f:SimpleForm  editable="true" layout="ColumnLayout" id="f1">
-        <f:toolbar>
-            <Toolbar id="tb1">
-              <content>
-                <ToolbarSpacer id="tbs"/>
-                <Button icon="sap-icon://create" text="Save" id = "bt-create"  press=".onSave"/>
-              </content>
-            </Toolbar>
-          </f:toolbar>
+     
           <f:content>
-			<Label text="Purchase Document No." id="l1"/>
-			<Text text="New PurchaseOrder" width="200px"   id="I1"/>
+			<Label text="Purchase Document No" id="l1"/>
+			<Text text="New Purchase Order" width="200px"   id="I1"/>
 			<Label text="Business Partner" id="l2"/>
-			 <Select items="{path: '/LISTROLE'}" id="sl"  change=".onChange">
+			 <Select items="{path: '/LISTROLE'}" id="sl" width="240px" change=".onChange">
 			<core:Item key="{BPARTNER_PARTNER}" text="{NAME}" id="it" />
 			</Select>
             </f:content>
 		</f:SimpleForm>
 	</Panel>
 	 <Table
-    
+    mode="MultiSelect"
       class="sapUiResponsiveMargin"
       width="auto" 
       id="TableM"
@@ -40,11 +33,14 @@ xmlns:f="sap.ui.layout.form"
             <ToolbarSpacer id="tlbspabe"/>
                          <Button
                         text="{i18n>add}"
+                         icon = "sap-icon://add"
                         press=".onAdd" id = "BT1"
                         class="btn1"/>
-            <SearchField 
-               width="50%" 
-               search=".onFilterMaterials" id="sfield"/>
+                         <Button
+                        text="{i18n>delete}"
+                         icon = "sap-icon://delete"
+                        press=".onDel" id = "BT2"
+                        class="btn1"/>
          </Toolbar>
       </headerToolbar>
       <columns>
@@ -70,5 +66,9 @@ xmlns:f="sap.ui.layout.form"
         
       </items>
    </Table>
+    <footer><Toolbar id="TB2"><ToolbarSpacer id="tbS"/> <Button         
+                        text="{i18n>save}"
+                        press=".onSave" id = "BT3" type="Emphasized"
+                        class="btn1"/></Toolbar></footer>
 	</Page>
 </mvc:View>
