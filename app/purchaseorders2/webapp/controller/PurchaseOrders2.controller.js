@@ -42,11 +42,27 @@ sap.ui.define([
                                 PO: window.encodeURIComponent(oItem.getBindingContext().getPath().substr("/".length))
                             });
                         } , onCreate(){
-                            temp = this.byId("TableP").getBinding("items") 
-                          
+                            this.byId("TableP").setBusy(true)
+                       
+
+                          let oModel = this.getView().getModel()
+                          let tbl = this.byId("TableP")
+                          const oRouter = this.getOwnerComponent().getRouter();
+                        let oCont =   this.byId("TableP").getBinding("items").create(  {
+                        "EBELN": "" ,
+                         "EBELP" : []   })
+                         
+                                  oModel.submitBatch("POUpdateGroup").then( function(){
+                                  let  tbldata = tbl.getItems()
+                                 let oDraft =  tbldata[0].getBindingContext().sPath
+                                 tbl.setBusy(false)
+                                    oRouter.navTo("detail", {
+                                        PO: window.encodeURIComponent(oDraft.substr("/".length))
+                                    }); 
+                                }
+                                  )
                             
-                            const oRouter = this.getOwnerComponent().getRouter();
-                            oRouter.navTo("create");
+                        
 
                         },
                         onSave(){
@@ -180,9 +196,9 @@ sap.ui.define([
                         oRouter.navTo("RoutePurchaseOrders2", {}, true);
                     },
                     Rfresh : function() {
-                      //let model = this.getView().byId("TableP").getBinding("items")
-                     //model.refresh()
-                     this.getView().getModel().refresh()
+                      let model = this.getView().byId("TableP").getBinding("items")
+                     model.refresh()
+                    // this.getView().getModel().refresh()
                     MessageToast.show("Table Refreshed");
 
                         /*

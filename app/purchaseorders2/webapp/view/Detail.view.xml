@@ -40,7 +40,7 @@ xmlns:f="sap.ui.layout.form"
       items="{path : 'EBELP', sorter : {
             path : 'EBELP' ,
              group : false
-         }, parameters: {	$$ownRequest : true} }" 
+         }, parameters: {	$$ownRequest : true , $count : true} }" 
       id="TableP">
       <headerToolbar>
          <Toolbar id="tbar">
@@ -50,7 +50,15 @@ xmlns:f="sap.ui.layout.form"
              <Button
                         text="{i18n>create}"
                         press=".onCreate" id = "BT2"
-                        class="btn1"/>
+                        class="btn1"
+                        enabled="{= !%{IsActiveEntity} }" />
+                        <Button
+                        text="{i18n>delete}"
+                        press=".onDelete" id = "BT4"
+                        class="btn1"
+                        enabled="{= !%{IsActiveEntity} }" 
+                        />
+                        
                 
             <SearchField 
                width="30%" 
@@ -61,15 +69,29 @@ xmlns:f="sap.ui.layout.form"
       <Column id="c1">
 				<Text text="{i18n>itemno} " id="t1" />
 			</Column>
+          <Column id="c2a"  visible="{= !%{IsActiveEntity} }">
+				<Text text="{i18n>materialID} " id="t2a" />
+			</Column>
 			<Column id="c2"
 				minScreenWidth="Tablet"
-				demandPopin="false">
-				<Text text="{i18n>materialID}" id="t2"/>
+				demandPopin="false"  visible="{= %{IsActiveEntity} }">
+				<Text text="{i18n>materialID}"  id="t2"/>
 			</Column>
-			 <Column id="c3">
-				<Text text="{i18n>plantID} " id="t3" />
+          <Column id="c3a" visible="{= !%{IsActiveEntity} }">
+				<Text text="{i18n>plantID} " id="t3a"  />
 			</Column>
-			<Column hAlign="Right" id="Column4"  >
+			 <Column id="c3" visible="{= %{IsActiveEntity} }">
+				<Text text="{i18n>plantID} " id="t3"  />
+			</Column>
+         <Column  id="Column4a"  visible="{= !%{IsActiveEntity} }">
+			
+				<Text text="{i18n>quantity} " id="t4a" />
+			</Column>
+         <Column id="Column5"  visible="{= !%{IsActiveEntity} }">
+			
+				<Text text="{i18n>unit} " id="t5" />
+			</Column>
+			<Column hAlign="Right" id="Column4"  visible="{= %{IsActiveEntity} }">
 			
 				<Text text="{i18n>quantity} " id="t4" />
 			</Column>
@@ -79,8 +101,19 @@ xmlns:f="sap.ui.layout.form"
                  <cells>
             
                   <Text text="{EBELP}" id="ob1" /> 
+                  <Select selectedKey="{MATNR_MATNR}" items="{path: '/LISTMATERIALS' ,templateShareable: false}" 
+                  id="slMaterial" width="240px" change=".onChange">
+			<core:Item key="{MATNR}" text="{MAKTX}" id="Material" />
+			</Select>
 				  <ObjectIdentifier title="{MATNR_MATNR}" text="{MATNR/MAKTX}" id="ob2" />
+              
+              <Select selectedKey="{WERKS_WERKS}" items="{path: '/Plants' ,templateShareable: false}" 
+                  id="slPlants" width="240px"  >
+			<core:Item key="{WERKS}" text="{NAME1}" id="Plants" />
+			</Select>
 				 <ObjectIdentifier title="{WERKS_WERKS}" text="{WERKS/NAME1}" id="ob3" />
+             <Input value="{MENGE}" id="inpQuantity"/>
+             <Text text = "" id="textuom"  />
 				<ObjectNumber number="{path : 'MENGE', type : 'sap.ui.model.type.Integer', 
 				formatOptions : {minIntegerDigits: 1 ,minFractionDigits : 2} }" unit="{MATNR/UOM}" id="ob4"/>
 				</cells>

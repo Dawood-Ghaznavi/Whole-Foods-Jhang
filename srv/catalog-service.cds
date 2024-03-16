@@ -24,7 +24,7 @@ service wholefoodService {
 
     entity LISTROLE as select from BPRoles{BPARTNER,BROLES,BPARTNER.NAME} where BROLES.ROLE = 'VEND';
 
-     entity LISTMATERIALS as select from Materials {MATNR,TYPE,MAKTX,UOM  }where TYPE.MTART = 'ROH';
+     entity LISTMATERIALS as select from Materials {key MATNR,TYPE,MAKTX,UOM  }where TYPE.MTART = 'ROH';
 
     @odata.draft.enabled: true
      entity RECIPE_HEAD as projection on wholefood.Wholefoods.RECIPE_HEAD;

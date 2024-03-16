@@ -53,7 +53,7 @@ sap.ui.define([
             
                    oRouter.navTo("detail", {
                         PO: window.encodeURIComponent(oDraft.substr("/".length))
-                    }); 
+                    },true); 
                     that.getView().getModel().refresh()
                 }); 
 
@@ -106,7 +106,7 @@ sap.ui.define([
                  obj.setBindingContext(oDraftContext)
                   oRouter.navTo("detail", {
                     PO: window.encodeURIComponent(oDraft.substr("/".length))
-                }); 
+                },true); 
    
                // that.getView().getModel().refresh()
                   return   oDraftContext
@@ -126,10 +126,10 @@ sap.ui.define([
 
             },
             onCancel(){
-           
+              let EBLN = this.byId("I1").getText()
               let oDraftContext = this.getView().getBindingContext()
               let oModel = this.getView().getModel()
-        
+              //let Dcontext = new sap.ui.generic.app.transaction.DraftContext(oModel)
               const oRouter = this.getOwnerComponent().getRouter();
               let that = this;
             function gotoActiveContext(oActiveContext) {
@@ -137,9 +137,13 @@ sap.ui.define([
               oDraftContext.delete("$auto", true);
         
               let path = oActiveContext.sPath
-              oRouter.navTo("detail",{ PO: window.encodeURIComponent(path.substr("/".length))});
+              oRouter.navTo("detail",{ PO: window.encodeURIComponent(path.substr("/".length))},true);
+              
+             console.log(that.getView().getModel().refresh())
+             
+            
             }
-      
+            if(EBLN.length > 0){
             if (this.oActiveContext) {
          
               //oDraftContext.replaceWith(this.oActiveContext);
@@ -155,11 +159,79 @@ sap.ui.define([
                   {$$inheritExpandSelect : true})
                 .execute("$auto", false, null,false).then(gotoActiveContext); */
             }
+          }
+          else{
+            oRouter.navTo("RoutePurchaseOrders2",{},true)
+          }
 
 
 
 
 
+
+            },
+            onCreate(){
+           let PO_ID =    this.getView().getBindingContext().sPath.substr(12,36)
+           let len = this.byId("TableP").getItems().length
+           let EBLP
+
+           if(len === 0 )
+           {
+              EBLP = String("10").padStart(4,'0')
+           }
+           else{
+            let tbl = this.byId("TableP").getItems()
+            let txt = tbl[tbl.length-1].getAggregation("cells")[0].getText()
+            EBLP = parseInt(txt) + 10
+            EBLP = String(EBLP).padStart(4,'0')}
+         
+              let obj = {EBELP: EBLP,
+              EBELN_ID : PO_ID,
+                        WERKS_WERKS : '',
+                        MATNR_MATNR : '' ,
+                        MENGE : null}
+                        
+             this.byId("TableP").getBinding("items").create(obj,null,true) 
+
+
+
+
+            },
+            onDelete(){
+
+              let oTable = this.getView().byId("TableP"),
+              Porder = oTable.getSelectedItems()
+
+              if(Porder.length === 0){
+               MessageToast.show("No Item Selected");
+               return
+              }
+              let order
+              for(let x = 0 ; x < Porder.length ; x++){
+                order = Porder[x].getBindingContext()
+                order.delete().then(function(){ MessageToast.show("Item Deleted");})
+               
+                }
+            },
+            onChange(oEvent){
+              let lineNumber = parseInt(oEvent.getParameters().id.substr(-1))
+              let tbldata = this.byId("TableP").getItems()
+              let oModel = this.getView().getModel()
+              let test =  oEvent.getParameters().selectedItem.getBindingContext();
+              console.log(test)
+              
+        
+              let bindcontxt = oEvent.getParameters().selectedItem.mProperties.key;
+              let unit = oModel.bindProperty(`/LISTMATERIALS(MATNR='${bindcontxt}',IsActiveEntity=true)/UOM`);
+              unit.requestValue().then(function (sValue) {
+                tbldata[lineNumber].getAggregation("cells")[6].setText(sValue)
+                console.log(sValue)
+            });
+             
+
+              //tbldata[lineNumber].getAggregation("cells")[6].setText("{UOM}")
+             //tbldata[lineNumber].getAggregation("cells")[6].setBindingContext(bindcontxt)
+         
 
 
             }
