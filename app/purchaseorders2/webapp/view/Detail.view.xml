@@ -120,7 +120,16 @@ xmlns:f="sap.ui.layout.form"
                 </ColumnListItem>
       </items>
    </Table>
-   <footer ><Toolbar id="TB2" visible="{= !%{IsActiveEntity} }"><ToolbarSpacer id="tbS"/> <Button         
+   <footer ><Toolbar id="TB2" visible="{= !%{IsActiveEntity} }">
+                     <Button
+                     id= "BT6"
+                    icon="sap-icon://alert"
+                    text="{= ${message>/}.length }"
+                    visible="{= ${message>/}.length > 0 }"
+                    type="Emphasized"
+                    press="onMessagePopoverPress" />
+                    <ToolbarSpacer id="tbS"/>  
+                    <Button         
                         text="{i18n>save}"
                         press=".onSave" id = "BT3" type="Emphasized" 
                         class="btn1"/>

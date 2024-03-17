@@ -1,20 +1,23 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/core/routing/History",
-    "sap/m/MessageToast"
+    "sap/m/MessageToast",
+    "sap/ui/core/Messaging"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller,History,MessageToast) {
+    function (Controller,History,MessageToast,Messaging) {
         "use strict";
-        let id
-
+        let id      
         return Controller.extend("purchaseorders2.controller.Detail", {
             onInit: function () {
                 const oRouter = this.getOwnerComponent().getRouter();
                 oRouter.getRoute("detail").attachPatternMatched(this.onObjectMatched, this);
-                
+
+                this.MessageManager = Messaging;
+                this.MessageManager.removeAllMessages();
+                this.oView.setModel(this.MessageManager.getMessageModel(),"message");
             },
 
             onObjectMatched(oEvent) {
@@ -32,7 +35,7 @@ sap.ui.define([
          
             },
             onEdit() {
-
+              this.MessageManager.removeAllMessages();
               /*let panel =  this.byId("p1")
               panel.setHeaderText("items") */
 
@@ -54,13 +57,65 @@ sap.ui.define([
                    oRouter.navTo("detail", {
                         PO: window.encodeURIComponent(oDraft.substr("/".length))
                     },true); 
-                    that.getView().getModel().refresh()
+                   // that.getView().getModel().refresh()
+                   let Mdl = that.getView().getModel()
+                   setTimeout( function(){   Mdl.refresh()    }, 100);
                 }); 
 
 
 
             },
              async onSave() {
+              this.MessageManager.removeAllMessages();
+              let tableItems = this.byId("TableP").getItems()
+             if(tableItems.length == 0){
+                this.MessageManager.addMessages(
+                  new sap.ui.core.message.Message({
+                      message: "Purchase Order must have atleast one item",
+                      type: sap.ui.core.MessageType.Error,
+                      processor: this.getView().getModel()
+                   })
+              );
+                    return
+              }
+
+
+              let quantity
+              let quant_id 
+              let item
+              let count = 0
+
+
+      for (let x= 0 ; x < tableItems.length ; x++){
+        quantity = parseInt(tableItems[x].getAggregation("cells")[5].getValue())
+        
+
+
+              if(quantity < 1)
+              {
+                count = count + 1
+                quant_id = tableItems[x].getAggregation("cells")[5].getId()
+               item = tableItems[x].getAggregation("cells")[0].getText()
+                this.MessageManager.addMessages(
+                  new sap.ui.core.message.Message({
+                      message: `Quantity for item ${item} must be greater than zero`,
+                      type: sap.ui.core.MessageType.Error,
+                      target: `${quant_id}/MENGE`,
+                      processor: this.getView().getModel()
+                   })
+              );
+
+              } 
+            }
+
+            if(count > 0){
+              console.log(count)
+              return}
+
+
+
+
+ 
               let that = this
              let oModel = that.getView().getModel()
              oModel.submitBatch("POUpdateGroup")
@@ -234,6 +289,25 @@ sap.ui.define([
          
 
 
+            },onMessagePopoverPress : function (oEvent) {
+              var oSourceControl = oEvent.getSource();
+              this.getMessagePopover().then(function(oMessagePopover){
+                oMessagePopover.openBy(oSourceControl);
+              });
+            },
+            getMessagePopover: function () {
+              var oView = this.getView();
+        
+          
+              if (!this._pMessagePopover) {
+                this._pMessagePopover = this.loadFragment({
+                  name: "purchaseorders2.view.MessagePopover"
+                }).then(function (oMessagePopover) {
+                  oView.addDependent(oMessagePopover);
+                  return oMessagePopover;
+                });
+              }
+              return this._pMessagePopover;
             }
         });
     });
