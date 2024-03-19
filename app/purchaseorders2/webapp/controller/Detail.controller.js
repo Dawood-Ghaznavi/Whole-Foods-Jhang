@@ -2,12 +2,14 @@ sap.ui.define([
     "sap/ui/core/mvc/Controller",
     "sap/ui/core/routing/History",
     "sap/m/MessageToast",
-    "sap/ui/core/Messaging"
+    "sap/ui/core/Messaging",
+    "sap/ui/model/Filter",
+	"sap/ui/model/FilterOperator"
 ],
     /**
      * @param {typeof sap.ui.core.mvc.Controller} Controller
      */
-    function (Controller,History,MessageToast,Messaging) {
+    function (Controller,History,MessageToast,Messaging,Filter,FilterOperator) {
         "use strict";
         let id      
         return Controller.extend("purchaseorders2.controller.Detail", {
@@ -66,6 +68,26 @@ sap.ui.define([
 
             },
              async onSave() {
+              /*
+              let part = this.byId("sl").getSelectedItem().mProperties.key
+              console.log((part == ''))
+              console.log(part)
+              if(part == '')
+              {
+                let part_list = this.byId("sl")
+                let oList = this.getView().getModel().bindList("/BPGENERAL");
+                oList.requestContexts(0).then(function (aContexts) {
+                  let partnr =  aContexts[0].getProperty("PARTNER")
+                  part_list.setSelectedKey(partnr)
+                  console.log(part)
+                })
+
+
+
+
+              }
+            this.byId("text_partner").setText(part) */
+            
               this.MessageManager.removeAllMessages();
               let tableItems = this.byId("TableP").getItems()
              if(tableItems.length == 0){
@@ -90,8 +112,7 @@ sap.ui.define([
         quantity = parseInt(tableItems[x].getAggregation("cells")[5].getValue())
         
 
-
-              if(quantity < 1)
+              if(quantity < 1 || Number.isNaN(quantity))
               {
                 count = count + 1
                 quant_id = tableItems[x].getAggregation("cells")[5].getId()
@@ -242,13 +263,16 @@ sap.ui.define([
          
               let obj = {EBELP: EBLP,
               EBELN_ID : PO_ID,
-                        WERKS_WERKS : '',
-                        MATNR_MATNR : '' ,
-                        MENGE : null}
-                        
-             this.byId("TableP").getBinding("items").create(obj,null,true) 
-
-
+                       MENGE : null}
+                       
+             this.byId("TableP").getBinding("items").create(obj,null,true)
+              let tbl = this.byId("TableP").getItems()
+              let oList = this.getView().getModel().bindList("/LISTMATERIALS");
+              oList.requestContexts(0).then(function (aContexts) {
+                let unit =  aContexts[0].getProperty("UOM")
+                tbl[tbl.length -1].getAggregation("cells")[6].setText(unit)
+               
+              })
 
 
             },
@@ -274,18 +298,15 @@ sap.ui.define([
               let oModel = this.getView().getModel()
               let test =  oEvent.getParameters().selectedItem.getBindingContext();
               console.log(test)
-              
-        
               let bindcontxt = oEvent.getParameters().selectedItem.mProperties.key;
               let unit = oModel.bindProperty(`/LISTMATERIALS(MATNR='${bindcontxt}',IsActiveEntity=true)/UOM`);
               unit.requestValue().then(function (sValue) {
                 tbldata[lineNumber].getAggregation("cells")[6].setText(sValue)
                 console.log(sValue)
-            });
-             
+            }); 
 
               //tbldata[lineNumber].getAggregation("cells")[6].setText("{UOM}")
-             //tbldata[lineNumber].getAggregation("cells")[6].setBindingContext(bindcontxt)
+            // tbldata[lineNumber].getAggregation("cells")[6].setBindingContext(bindcontxt)
          
 
 
@@ -308,6 +329,29 @@ sap.ui.define([
                 });
               }
               return this._pMessagePopover;
+            },
+            onFilterOrders(oEvent){
+
+
+ // build filter array
+ const aFilter = [];
+ const sQuery = oEvent.getParameter("query");
+ if (sQuery) {
+     aFilter.push(new Filter("MATNR_MATNR", FilterOperator.Contains, sQuery.toUpperCase()));
+     aFilter.push(new Filter({path : "MATNR/MAKTX", operator : FilterOperator.Contains,value1: sQuery,caseSensitive : false}));
+     aFilter.push(new Filter("EBELP", FilterOperator.Contains, sQuery));
+     aFilter.push(new Filter("WERKS_WERKS", FilterOperator.Contains, sQuery));
+     aFilter.push(new Filter({path : "WERKS/NAME1",operator : FilterOperator.Contains, value1: sQuery,caseSensitive : false}));
+     aFilter.push(new Filter("UOM", FilterOperator.Contains, sQuery.toUpperCase()));	
+     }
+     let oFilter = new Filter({filters : aFilter ,
+     and : false})
+// filter binding
+ const oTable = this.byId("TableP");
+ const oBinding = oTable.getBinding("items");
+ oBinding.filter(oFilter);
+
+
             }
         });
     });

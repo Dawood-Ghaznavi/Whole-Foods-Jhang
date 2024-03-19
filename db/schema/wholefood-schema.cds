@@ -83,6 +83,7 @@ context Wholefoods {
             WERKS : Association to Plants; //Plant ID
             MATNR : Association to Materials; //Material ID
             MENGE : Double; //PO Quantity
+            UOM : String(2)
           
        
            

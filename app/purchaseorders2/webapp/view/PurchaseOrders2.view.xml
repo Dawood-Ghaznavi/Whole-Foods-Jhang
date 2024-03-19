@@ -11,7 +11,8 @@
             path : 'EBELN' ,
              group : false
          }	, parameters: { 	$count : true,$$updateGroupId : 'POUpdateGroup' ,
-                  	$filter :		'IsActiveEntity eq false or SiblingEntity/IsActiveEntity eq null' ,$$getKeepAliveContext : true,
+                  	$filter :
+								'IsActiveEntity eq false or SiblingEntity/IsActiveEntity eq null' ,$$getKeepAliveContext : true,
 							$$patchWithoutSideEffects : true
                    }}" 
       id="TableP">
@@ -30,11 +31,7 @@
                         icon = "sap-icon://delete"
                         press=".onDelete" id = "BT1"
                         class="btn1"/>
-                        <Button
-                        text="{i18n>refresh}"
-                        icon = "sap-icon://refresh"
-                        press=".Rfresh" id = "BT2"
-                        class="btn1"/>
+                     
             <SearchField 
                width="25%" 
                search=".onFilterOrders" id="sfield"/>
@@ -49,9 +46,7 @@
 				demandPopin="false">
 				<Text text="{i18n>businesspartner}" id="t4"/>
 			</Column>
-          <Column id="c3">
-				<Text text="Active Entity" id="t3" />
-			</Column>
+         
 			
 		</columns>
       <items>
@@ -61,7 +56,7 @@
                  <cells>
 				<ObjectIdentifier title="{EBELN}" id="objIden2" />
             <ObjectIdentifier title="{PARTNER_PARTNER}" text="{PARTNER/NAME}" id="objIden1" />
-            <Text id="ACTIVEtxt" text="{IsActiveEntity}"/>
+           
 				
 				</cells>
                 </ColumnListItem>

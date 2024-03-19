@@ -25,10 +25,15 @@ sap.ui.define([
                             const sQuery = oEvent.getParameter("query");
                             if (sQuery) {
                                 aFilter.push(new Filter("PARTNER_PARTNER", FilterOperator.Contains, sQuery.toUpperCase()));
+                                aFilter.push(new Filter({path :"PARTNER/NAME", operator:FilterOperator.Contains,value1: sQuery,caseSensitive: false}));
                                 aFilter.push(new Filter("EBELN", FilterOperator.Contains, sQuery));	
                                 }
+                             else{
+                                aFilter.push(new Filter("IsActiveEntity", FilterOperator.EQ, false));
+                                aFilter.push( new Filter("SiblingEntity/IsActiveEntity", FilterOperator.EQ, null));
+                             }   
                                 let oFilter = new Filter({filters : aFilter ,
-                                and : false})
+                                           and : false })
                     // filter binding
                             const oTable = this.byId("TableP");
                             const oBinding = oTable.getBinding("items");
@@ -48,8 +53,14 @@ sap.ui.define([
                           let oModel = this.getView().getModel()
                           let tbl = this.byId("TableP")
                           const oRouter = this.getOwnerComponent().getRouter();
-                        let oCont =   this.byId("TableP").getBinding("items").create(  {
+                          let Bpart 
+                          let that = this
+                          let oList = this.getView().getModel().bindList("/BPGENERAL");
+                oList.requestContexts(0).then(function (aContexts) {
+                    Bpart  =  aContexts[0].getProperty("PARTNER")
+                    let oCont =   that.byId("TableP").getBinding("items").create(  {
                         "EBELN": "" ,
+                        "PARTNER_PARTNER" : Bpart,
                          "EBELP" : []   })
                          
                                   oModel.submitBatch("POUpdateGroup").then( function(){
@@ -61,6 +72,9 @@ sap.ui.define([
                                     }); 
                                 }
                                   )
+                 
+                })
+                        
                             
                         
 
