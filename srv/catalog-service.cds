@@ -22,7 +22,7 @@ service wholefoodService {
   
     entity PO_ITEM as projection on wholefood.Wholefoods.PO_ITEM;
 
-    entity LISTROLE as select from BPRoles{BPARTNER,BROLES,BPARTNER.NAME} where BROLES.ROLE = 'VEND';
+    entity LISTROLE as select from BPRoles{key BPARTNER ,key BROLES,BPARTNER.NAME as NAME} where BROLES.ROLE = 'VEND';
 
      entity LISTMATERIALS as select from Materials {key MATNR,TYPE,MAKTX,UOM  }where TYPE.MTART = 'ROH';
 
@@ -33,7 +33,7 @@ service wholefoodService {
 
     //entity LISTFINISHED as select from Materials  left outer join RECIPE_HEAD  on Materials.MATNR != RECIPE_HEAD.MAT {Materials.MATNR,MAKTX,Materials.TYPE} where TYPE.MTART = 'FERT' ;
       
-    //entity LISTFINISHED as select from Materials where TYPE.MTART = 'FERT';
+    
     entity LISTFINISHED as select from Materials where ((Materials.MATNR not in (select MAT from RECIPE_HEAD)) and (TYPE.MTART = 'FERT'));
     entity LISTFILTER as select from Materials where TYPE.MTART = 'FERT';
 

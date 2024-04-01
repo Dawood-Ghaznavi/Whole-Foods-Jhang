@@ -4,7 +4,7 @@ module.exports = function (){
     const { PO_HEAD} = this.entities()
     const { PO_ITEM} = this.entities()
     const {MARD,RECIPE_HEAD,RECIPE_ITEM,Materials} = this.entities()
-/*
+
        this.before ('CREATE','PO_HEAD', async (req)=>{
         console.log("*****  Catalog JS Create")
         if(req.data.PARTNER_PARTNER == null){
@@ -39,7 +39,7 @@ module.exports = function (){
                                                              }
         if(req.errors)  {
             req.reject()
-                        } */
+                        } 
         /*
         let temp 
         let HeadID = '0'
@@ -66,7 +66,7 @@ module.exports = function (){
 
         }
         */
-    /*    let lenItem = req.data.EBELP.length
+        let lenItem = req.data.EBELP.length
         const arrItem = []
         let mID , plID, mng , IT_ID, PO_ID
         let similarityIndex
@@ -121,11 +121,10 @@ module.exports = function (){
         
         
         
-       })  */
+       })  
 
-   
       
-/*
+
    this.before ('CREATE', 'PO_ITEM.drafts',async (req)=>{
        
     let ITEMID = '0'
@@ -152,7 +151,7 @@ module.exports = function (){
         
        
         
-    }) */
+    }) 
 
 /*
     this.before ('UPDATE','PO_ITEM.drafts',async (req)=>{
@@ -189,8 +188,8 @@ module.exports = function (){
         
     }) 
    */  
-    
-   /*
+    this.before ('UPDATE','PO_HEAD', async (req)=>{console.log("update pohead")})
+   
     this.before ('UPDATE','PO_HEAD', async (req)=>{
 
         for(let x = 0 ; x < req.data.EBELP.length ; x++){
@@ -311,7 +310,7 @@ else{
 
 
 
-}) */
+}) 
     
     this.before ('DELETE','PO_HEAD', async (req)=>{
         console.log("*****  Catalog JS Delete ")

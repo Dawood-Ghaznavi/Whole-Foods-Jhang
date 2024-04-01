@@ -98,13 +98,6 @@ context Wholefoods {
 
 
     }
-    entity LISTROLE : managed {
-
-        key BPARTNER : Association to BPGENERAL; //BP Role ID
-        key BROLES   : Association to Roles; //Role Description
-        NAME : String(50)
-  }
-
 
     entity RECIPE_HEAD : managed {
             key ID : UUID @Core.Computed: true;
